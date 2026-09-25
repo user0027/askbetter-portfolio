@@ -36,6 +36,12 @@ window.SITE = {
     href: 'case-study.html',
     title: 'AI Workflow Interview',
   },
+  // 숙련자용 심화 자료. 이름은 사용자 확인 전 임시값
+  advanced: {
+    label: 'Deep Dive',
+    href: 'deep-dive.html',
+    title: 'Deep Dive',
+  },
 };
 
 (function () {
