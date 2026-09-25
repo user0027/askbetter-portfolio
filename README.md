@@ -4,7 +4,7 @@
 
 ## 구성
 
-- `index.html` — 메인 페이지. Hero, Selected work, 커피챗 섹션으로 구성된다.
+- `index.html` — 메인 페이지. Opening(헤드라인과 여백의 질문), Work 01~04, How I work, Contact 순서의 에디토리얼 지면이다. 작업 문구는 `assets/site.js` 의 `SITE.work` 에 있다.
 - `case-study.html` — Claude TFT 케이스 스터디 전문.
 - `assets/` — 로고, 아이콘, 브랜드 자산.
 - `assets/site.js` — 페이지 이름 등 공통 값을 관리하는 스크립트.

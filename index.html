@@ -9,449 +9,493 @@
 <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
 <link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@200;300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
+  /* 케이스 스터디 페이지와 같은 라이트 팔레트로 고정한다. 다크모드는 지원하지 않는다 */
   :root{
     --bg:#ffffff;
-    --bg-tint:#f2f4fb;
-    --surface:#ffffff;
-    --ink:#131a2e;
-    --ink-soft:#565f7a;
-    --ink-faint:#8790a8;
-    --line:#e2e5f0;
-    --navy:#0f1830;
-    --navy-surface:#16213f;
-    --navy-ink:#eef1fb;
-    --navy-ink-soft:#a7b0cf;
-    --accent:#2b53d6;
-    --accent-ink:#2b53d6;
-    --accent-soft:#eaf0ff;
-    --accent-line:#c8d6ff;
-    --good:#1f7a52;
-    --coffee:#a9673a;
-    --coffee-soft:#f7ece2;
-    --coffee-line:#e3c6ae;
-    --shadow: 0 1px 2px rgba(19,26,46,0.04), 0 8px 24px rgba(19,26,46,0.06);
-  }
-  /* 케이스 스터디 페이지와 통일된 라이트 팔레트로 고정 — 다크모드 미지원 */
+    --tint:#f3f5fa;          /* 아주 연한 블루그레이. 판 배경 */
+    --tint-2:#e9edf7;
+    --ink:#131a2e;           /* Navy. 본문 기준색 */
+    --ink-soft:#4e5770;
+    --ink-faint:#8a91a6;
+    --line:rgba(19,26,46,.12);
+    --hair:rgba(19,26,46,.06);
+    --accent:#2b53d6;        /* Indigo Blue. 포인트로만 쓴다 */
 
-  *{box-sizing:border-box;}
-  html{background:var(--bg); scroll-behavior:smooth;}
-  @media (prefers-reduced-motion:reduce){
-    html{ scroll-behavior:auto; }
-    *{ animation-duration:0.01ms !important; transition-duration:0.01ms !important; }
+    --max:1280px;            /* 지면 폭 */
+    --gut:clamp(20px, 4vw, 48px);
+    --ease:cubic-bezier(.19,1,.22,1);
+    --sans:'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
   }
+
+  *{ box-sizing:border-box; }
+  html{ background:var(--bg); scroll-behavior:smooth; overflow-x:clip; }
   body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height:1.6;
-    margin:0;
-    word-break:keep-all;
-    overflow-wrap:break-word;
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.65;
+    word-break:keep-all; overflow-wrap:break-word; overflow-x:clip;
+    -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{
-    font-family:'Noto Sans KR', sans-serif;
-    font-weight:900;
-    letter-spacing:-0.01em;
-    text-wrap:balance;
-    margin:0;
-    color:var(--ink);
-  }
-  p{margin:0;}
-  a{color:inherit;}
-  .mono{ font-family:'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  h1,h2,h3,p{ margin:0; }
+  h1,h2,h3{ font-weight:700; letter-spacing:-0.035em; text-wrap:balance; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .mono{ font-family:var(--mono); font-variant-numeric:tabular-nums; }
 
-  .wrap{max-width:1040px; margin:0 auto; padding:0 32px;}
-  @media (max-width:640px){ .wrap{padding:0 20px;} }
-
-  .eyebrow{
-    font-size:14px; font-weight:700; letter-spacing:0.1em;
-    color:var(--accent-ink); text-transform:uppercase;
-  }
-  .eyebrow.on-dark{ color:#8fa8ff; }
+  .page{ max-width:var(--max); margin:0 auto; padding-inline:var(--gut); }
+  /* 12단 지면. 장마다 다른 판형을 이 단 위에 얹는다 */
+  .grid{ display:grid; grid-template-columns:repeat(12, minmax(0,1fr)); column-gap:clamp(16px, 2vw, 28px); }
+  .label{ font-family:var(--mono); font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
 
   /* ---------- Nav ---------- */
-  .nav{
-    position:sticky; top:0; z-index:20; background:rgba(255,255,255,0.92);
-    backdrop-filter:saturate(180%) blur(10px); border-bottom:1px solid var(--line);
-  }
-  .nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; max-width:1040px; }
-  .nav .id{ display:flex; align-items:center; gap:9px; font-weight:900; font-size:15px; letter-spacing:-0.01em; text-decoration:none; color:var(--ink); }
-  .nav .id img{ display:block; width:160px; height:auto; }
-  .nav .links{ display:flex; align-items:center; gap:26px; font-size:13.5px; font-weight:700; color:var(--ink-soft); }
-  .nav .links a{ position:relative; text-decoration:none; transition:color 0.2s ease; }
-  .nav .links a:not(.cta)::after{
-    content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:var(--ink);
-    transform:scaleX(0); transform-origin:right; transition:transform 0.25s ease;
-  }
-  .nav .links a:not(.cta):hover::after{ transform:scaleX(1); transform-origin:left; }
+  .nav{ position:sticky; top:0; z-index:30; background:rgba(255,255,255,.86); backdrop-filter:saturate(180%) blur(10px);
+    border-bottom:1px solid transparent; transition:border-color .4s ease; }
+  .nav.is-scrolled{ border-bottom-color:var(--hair); }
+  .nav .page{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .nav .id img{ width:148px; height:auto; }
+  .nav .links{ display:flex; gap:28px; font-size:13px; font-weight:500; color:var(--ink-soft); }
+  .nav .links a{ text-decoration:none; transition:color .2s ease; }
   .nav .links a:hover{ color:var(--ink); }
-  .nav .links a.cta{
-    background:var(--ink); color:#fff; padding:8px 16px; border-radius:100px; font-weight:700;
-    transition:background 0.2s ease, transform 0.2s ease;
-  }
-  .nav .links a.cta:hover{ background:var(--navy); transform:translateY(-1px); }
-  .nav .links .sep{ width:1px; height:16px; background:var(--line); }
-  @media (max-width:640px){ .nav .id img{ width:120px; } .nav .links{ gap:10px; font-size:12px; } .nav .links a.cta{ padding:7px 11px; } }
-  @media (max-width:400px){
-    .nav .wrap{ flex-wrap:wrap; row-gap:10px; padding-bottom:12px; }
-    .nav .links{ width:100%; justify-content:flex-start; }
-  }
+  @media (max-width:640px){ .nav .id img{ width:118px; } .nav .links{ gap:16px; font-size:12.5px; } .nav .links .opt{ display:none; } }
 
-  /* ---------- Hero ----------
-     세 가지 구성을 assets/site.js 의 SITE.hero.variant 로 고른다('note' · 'stack' · 'qa').
-     주소 뒤에 ?hero=note 처럼 붙이면 설정을 바꾸지 않고 미리 볼 수 있다. */
-  .hero{
-    position:relative; display:flex; flex-direction:column;
-    min-height:min(calc(100svh - 70px), 860px);
-    padding:24px 0 0;
-    background:var(--bg);
-    border-bottom:1px solid var(--line);
-    overflow:hidden;
-  }
-  .hero-photo{
-    position:absolute; top:0; right:0; bottom:0; width:56%; z-index:0; display:none;
-    background-size:cover; background-position:center; transform:scale(1.06); transition:transform 18s linear;
-    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 40%); mask-image:linear-gradient(to right, transparent 0%, #000 40%);
-  }
-  .hero.is-lit .hero-photo{ transform:scale(1); }
-  .hero[data-hero="stack"] .hero-photo{ display:block; background-image:url('assets/hero/arches.jpg'); }
-  .hero[data-hero="qa"] .hero-photo{ display:block; background-image:url('assets/hero/window.jpg'); background-position:30% center; }
-  .hero-wrap{ position:relative; z-index:1; flex:1; width:100%; display:flex; flex-direction:column; }
-  .hero-body{ flex:1; display:flex; flex-direction:column; justify-content:center; padding-block:40px; }
-  .hero[data-hero="stack"] .hero-body{ justify-content:flex-end; }
+  /* ---------- Opening ---------- */
+  .opening{ position:relative; min-height:calc(100svh - 68px); display:flex; flex-direction:column; }
+  /* 얇은 편집 그리드선. 진입할 때 한 번 그어지고 그대로 남는다 */
+  .rules{ position:absolute; inset:0; pointer-events:none; }
+  .rules .page{ height:100%; display:grid; grid-template-columns:repeat(4,1fr); }
+  .rules i{ border-left:1px solid var(--hair); transform:scaleY(0); transform-origin:top; transition:transform 1.8s var(--ease); }
+  .rules i:last-child{ border-right:1px solid var(--hair); }
+  .rules i:nth-child(2){ transition-delay:.12s; } .rules i:nth-child(3){ transition-delay:.24s; } .rules i:nth-child(4){ transition-delay:.36s; }
+  .opening.is-in .rules i{ transform:none; }
 
-  .hero-head{
-    margin:0; font-weight:700; font-size:clamp(36px, 5.6vw, 80px); line-height:1.16; letter-spacing:-0.045em; color:var(--ink);
-  }
-  .hero-head em{ font-style:normal; color:var(--accent); position:relative; }
-  .hh-line{ display:block; overflow:hidden; padding-bottom:0.06em; }
-  .hh-in{ display:inline-block; transform:translateY(100%); transition:transform 1s cubic-bezier(.19,1,.22,1); }
-  .hh-2 .hh-in{ transition-delay:0.14s; }
-  .hero.is-in .hh-in{ transform:none; }
-  .hero-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:32px; margin-top:32px; }
-  .hero-sub{ margin:0; font-size:clamp(15px, 1.3vw, 18px); color:var(--ink-soft); opacity:0; transition:opacity 1s ease 0.6s; }
-  .hero.is-in .hero-sub{ opacity:1; }
-  .hero-foot{
-    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-    padding:20px 0 26px; border-top:1px solid var(--line); font-size:13.5px; color:var(--ink-soft);
-  }
-  .hero-foot a{ color:var(--ink); font-weight:700; text-decoration:none; }
-  .hero[data-hero="stack"] .hero-foot, .hero[data-hero="qa"] .hero-foot{ background:linear-gradient(to right, var(--bg) 45%, rgba(255,255,255,.7)); }
-  .hv{ display:none; }
+  .opening > .page{ position:relative; flex:1; width:100%; display:grid; grid-template-rows:1fr auto auto; }
 
-  /* note: 여백 주석 */
-  .hero[data-hero="note"] .hv-note{ display:block; }
-  .hero[data-hero="note"] .hero-head em::after{
-    content:''; position:absolute; left:0; right:0; bottom:0.02em; height:2px; background:var(--accent);
-    transform:scaleX(0); transform-origin:left; transition:transform 0.9s cubic-bezier(.2,.7,.1,1) 0.6s;
-  }
-  .hero[data-hero="note"].is-in .hero-head em::after{ transform:scaleX(1); }
-  .hv-note{ flex:none; width:min(380px, 42%); padding-left:20px; border-left:1px solid rgba(19,26,46,.28); margin-top:-4px; }
-  .hv-note .lbl{ display:block; margin-bottom:10px; font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.14em; color:var(--ink-faint); }
-  .hv-note .qs{ position:relative; height:5.2em; font-size:16px; line-height:1.6; }
-  .hv-note .qs span{ position:absolute; inset:0; opacity:0; transform:translateY(8px); transition:opacity 1s ease, transform 1s ease; }
-  .hv-note .qs span.on{ opacity:1; transform:none; }
-  .hv-note small{ display:block; margin-top:4px; font-size:12.5px; color:var(--ink-faint); }
+  /* 여백의 질문. 흩어진 낱말이 한 줄로 정렬되고, 선이 그어지며 작업 이름이 붙는다 */
+  .ask{ grid-row:1; align-self:start; justify-self:end; width:min(460px, 50%); padding-top:clamp(40px, 12vh, 132px); }
+  .ask .label{ display:flex; gap:10px; }
+  .ask .label b{ font-weight:400; color:var(--ink); }
+  .ask-q{ text-wrap:balance; position:relative; margin-top:18px; min-height:3.4em; font-size:clamp(18px, 1.6vw, 22px); line-height:1.55; letter-spacing:-0.02em; color:var(--ink-soft); }
+  .ask-q .w{ display:inline-block; white-space:pre; opacity:0; transform:translate(var(--dx), var(--dy));
+    transition:opacity 1.2s ease, transform 1.8s var(--ease), color 1.2s ease; }
+  .ask.is-set .ask-q .w{ opacity:1; transform:none; color:var(--ink); }
+  .ask.is-out .ask-q .w{ opacity:0; transform:translateY(-6px); transition-duration:.7s; transition-delay:0s !important; }
+  .ask-line{ height:1px; margin-top:16px; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform 1.2s var(--ease); }
+  .ask.is-set .ask-line{ transform:scaleX(1); transition-delay:1.4s; }
+  .ask.is-out .ask-line{ transform-origin:right; transform:scaleX(0); transition:transform .6s ease; }
+  .ask-by{ margin-top:10px; font-size:12.5px; color:var(--ink-faint); opacity:0; transition:opacity .8s ease; }
+  .ask.is-set .ask-by{ opacity:1; transition-delay:2s; }
+  .ask.is-out .ask-by{ opacity:0; transition-delay:0s; }
 
-  /* stack: 질문이 흘러 한 문장으로 */
-  .hero[data-hero="stack"] .hv-stack{ display:block; }
-  .hv-stack{ position:relative; height:clamp(180px, 30vh, 280px); overflow:hidden; margin-bottom:16px;
-    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 60%); mask-image:linear-gradient(to bottom, transparent 0%, #000 60%); }
-  .hv-stack .reel{ position:absolute; left:0; right:0; bottom:0; animation:heroReel 48s linear infinite; }
-  .hv-stack p{ margin:0; font-size:clamp(18px, 1.9vw, 26px); line-height:1.75; font-weight:300; color:#a3a9b8; letter-spacing:-0.02em; }
-  @keyframes heroReel{ from{ transform:translateY(50%); } to{ transform:translateY(0); } }
+  .headline{ grid-row:2; padding-bottom:clamp(40px, 9vh, 96px);
+    font-size:clamp(40px, 6.6vw, 100px); line-height:1.12; letter-spacing:-0.055em; font-weight:700; }
+  .headline em{ font-style:normal; color:var(--accent); }
+  .hl{ display:block; overflow:hidden; padding-bottom:.08em; }
+  .hl > span{ display:inline-block; transform:translateY(105%); transition:transform 1.2s var(--ease); }
+  .hl + .hl > span{ transition-delay:.12s; }
+  .opening.is-in .hl > span{ transform:none; }
 
-  /* qa: 문답 */
-  .hero[data-hero="qa"] .hv-q, .hero[data-hero="qa"] .hv-a{ display:block; }
-  .hero[data-hero="qa"] .hero-main{ display:grid; grid-template-columns:64px minmax(0,1fr); }
-  .hv-q{ display:none; margin-bottom:clamp(24px, 5vh, 48px); }
-  .hero[data-hero="qa"] .hv-q{ display:grid; grid-template-columns:64px minmax(0,1fr); align-items:baseline; }
-  .hv-mk{ font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; color:var(--ink-faint); padding-top:.6em; }
-  .hv-q p{ margin:0; font-size:clamp(20px, 2.4vw, 34px); font-weight:300; color:var(--ink-soft); letter-spacing:-0.03em; }
-  .hv-q .ch{ opacity:0; transition:opacity .25s linear; }
-  .hv-q .ch.on{ opacity:1; }
+  .opening-foot{ grid-row:3; display:flex; justify-content:space-between; align-items:center; gap:16px;
+    padding:18px 0 22px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft);
+    opacity:0; transition:opacity 1s ease .9s; }
+  .opening.is-in .opening-foot{ opacity:1; }
+  .opening-foot a{ text-decoration:none; color:var(--ink-faint); }
+  .opening-foot a:hover{ color:var(--ink); }
 
   @media (max-width:860px){
-    .hero{ min-height:auto; padding-top:24px; }
-    .hero-photo{ width:100%; opacity:.3; }
-    .hero-row{ flex-direction:column; }
-    .hv-note{ width:auto; }
-    .hero[data-hero="qa"] .hero-main, .hero[data-hero="qa"] .hv-q{ grid-template-columns:40px minmax(0,1fr); }
+    .opening{ min-height:calc(100svh - 68px); }
+    .opening > .page{ grid-template-rows:auto 1fr auto; }
+    .headline{ align-self:end; padding-bottom:40px; }
+    .hl > span{ text-wrap:balance; }
+    .opening-foot a{ display:none; }
+    .ask{ justify-self:start; width:100%; padding-top:48px; padding-bottom:72px; }
+    .rules .page{ grid-template-columns:repeat(2,1fr); }
+    .rules i:nth-child(n+3){ display:none; }
+    .rules i:nth-child(2){ border-right:1px solid var(--hair); }
   }
+
+  /* ---------- 공통 reveal ---------- */
+  .rv{ opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform 1.1s var(--ease); }
+  .rv.is-in{ opacity:1; transform:none; }
+  /* 판·화면은 가장자리부터 조금씩 드러난다 */
+  .unveil{ clip-path:inset(6% 4% 6% 4%); transition:clip-path 1.6s var(--ease); }
+  .unveil.is-in{ clip-path:inset(0 0 0 0); }
+
+  /* ---------- Work ---------- */
+  .work-intro{ padding-top:clamp(120px, 18vh, 200px); padding-bottom:clamp(64px, 10vh, 120px); }
+  .work-intro .label{ grid-column:1 / 4; padding-top:.5em; }
+  .work-intro p{ grid-column:4 / 11; font-size:clamp(20px, 2vw, 26px); line-height:1.55; letter-spacing:-0.025em; color:var(--ink-soft); }
+
+  .ch{ padding-block:clamp(56px, 10vh, 112px); }
+  .ch-no{ display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:12px; letter-spacing:.12em; color:var(--ink-faint); }
+  .ch-no::after{ content:''; width:40px; height:1px; background:var(--line); }
+  .ch-q{ margin-top:22px; font-size:clamp(28px, 3.4vw, 48px); line-height:1.3; }
+  .ch-meta{ font-size:13px; color:var(--ink-faint); line-height:1.7; }
+  .ch-meta b{ display:block; font-weight:500; color:var(--ink); font-size:14.5px; }
+  .ch-notes{ display:grid; gap:14px; margin-top:28px; font-size:15px; line-height:1.7; color:var(--ink-soft); }
+  .ch-notes div{ display:grid; grid-template-columns:64px 1fr; }
+  .ch-notes .label{ padding-top:.35em; font-size:10.5px; }
+  .ch-notes div:has(> span:empty){ display:none; }
+  .ch-link{ display:inline-block; margin-top:28px; font-size:14px; font-weight:500; color:var(--accent); text-decoration:none;
+    background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat; padding-bottom:2px; transition:background-size .5s var(--ease); }
+  .ch-link:hover{ background-size:100% 1px; }
+
+  /* 화면. hover 에 6px 만 떠오른다 */
+  .shot{ position:relative; overflow:hidden; background:var(--tint); }
+  .shot img{ width:100%; height:100%; object-fit:cover; transition:transform .9s var(--ease); }
+  .ch:hover .shot img{ transform:translateY(-6px); }
+  .cap{ margin-top:12px; font-size:12px; color:var(--ink-faint); }
+
+  /* 작업 화면이 없는 장의 판. 질문 속 낱말 하나를 크게 잘라 넣는다 */
+  .plate{ position:relative; overflow:hidden; background:var(--tint); }
+  .plate .word{ position:absolute; left:-.04em; bottom:-.24em; font-weight:200; letter-spacing:-0.07em; line-height:1; white-space:nowrap;
+    color:rgba(19,26,46,.13); transition:transform 2.4s var(--ease); transform:translateY(8%); }
+  .plate.is-in .word{ transform:none; }
+  .plate .label{ position:absolute; top:clamp(16px, 2.4vw, 32px); left:clamp(16px, 2.4vw, 32px); }
+  .plate .tick{ position:absolute; top:clamp(16px, 2.4vw, 32px); right:clamp(16px, 2.4vw, 32px); width:28px; height:1px; background:var(--accent); }
+
+  /* 01 · 텍스트 왼쪽, 화면이 오른쪽 가장자리까지 흐른다 */
+  .ch-1 .txt{ grid-column:1 / 6; align-self:start; position:sticky; top:120px; }
+  .ch-1 .media{ grid-column:6 / -1; margin-right:calc(-1 * (max(0px, (100vw - var(--max)) / 2) + var(--gut))); }
+  .ch-1 .shot{ aspect-ratio:1456 / 828; }
+  .ch-1 .shot img{ object-position:left top; }
+  .ch-1 .sub{ width:48%; margin-top:clamp(-120px, -8vw, -48px); margin-left:6%; position:relative; box-shadow:0 30px 60px -30px rgba(19,26,46,.35); aspect-ratio:1456 / 828; }
+
+  /* 02 · 질문을 넓게 깔고 판을 화면 폭 전체로 */
+  .ch-2 .head{ align-items:end; }
+  .ch-2 .head .q-col{ grid-column:1 / 9; }
+  .ch-2 .head .meta-col{ grid-column:10 / -1; }
+  .ch-2 .bleed{ width:100vw; margin-left:calc(50% - 50vw); margin-top:clamp(48px, 7vh, 80px); }
+  .ch-2 .plate{ height:clamp(320px, 64vh, 640px); background:linear-gradient(180deg, var(--tint) 0%, var(--tint-2) 100%); }
+  .ch-2 .plate .word{ font-size:clamp(120px, 26vw, 400px); left:var(--gut); }
+  .ch-2 .foot{ margin-top:32px; }
+  .ch-2 .foot .ch-notes{ grid-column:4 / 10; margin-top:0; }
+
+  /* 03 · 텍스트가 위, 판이 아래에서 오른쪽으로 비껴 앉는다 */
+  .ch-3 .q-col{ grid-column:1 / 8; }
+  .ch-3 .meta-col{ grid-column:9 / -1; padding-top:48px; }
+  .ch-3 .plate-col{ grid-column:3 / -1; margin-top:clamp(48px, 7vh, 88px); }
+  .ch-3 .plate{ aspect-ratio:16 / 8; background:var(--ink); }
+  .ch-3 .plate .word{ font-size:clamp(96px, 17vw, 260px); color:rgba(255,255,255,.1); }
+  .ch-3 .plate .label{ color:rgba(255,255,255,.45); }
+  .ch-3 .plate .tick{ background:#7d97ee; }
+
+  /* 04 · 작은 판과 텍스트가 맞선다. 마무리 장이라 가장 조용하게 */
+  .ch-4 .plate-col{ grid-column:1 / 5; }
+  .ch-4 .plate{ aspect-ratio:4 / 5; background:var(--bg); border:1px solid var(--line); }
+  .ch-4 .plate .word{ font-size:clamp(96px, 14vw, 200px); color:rgba(43,83,214,.14); }
+  .ch-4 .txt{ grid-column:6 / 12; align-self:center; }
+  .ch-4 .ch-q{ font-size:clamp(24px, 2.6vw, 36px); }
+
+  @media (max-width:860px){
+    .grid > *{ grid-column:1 / -1 !important; }
+    .work-intro p{ margin-top:14px; }
+    .ch-1 .txt{ position:static; margin-bottom:40px; }
+    .ch-1 .media{ margin-right:calc(-1 * var(--gut)); }
+    .ch-1 .sub{ width:64%; margin-left:0; margin-top:-24px; }
+    .ch-2 .head .meta-col, .ch-3 .meta-col{ padding-top:24px; }
+    .ch-2 .foot .ch-notes{ margin-top:0; }
+    .ch-4 .plate-col{ max-width:320px; margin-bottom:32px; }
+  }
+
+  /* ---------- About ---------- */
+  .about{ padding-top:clamp(120px, 18vh, 200px); }
+  .about > .grid > .label{ grid-column:1 / 4; padding-top:.6em; }
+  .believes{ grid-column:4 / -1; display:grid; gap:clamp(40px, 7vh, 72px); }
+  .believes .label{ display:block; margin-bottom:12px; }
+  .believes p{ font-size:clamp(21px, 2.3vw, 30px); line-height:1.5; letter-spacing:-0.03em; font-weight:500; max-width:24em; }
+  .believes p em{ font-style:normal; color:var(--accent); }
+
+  /* 경력은 보조 정보라 작게 둔다. 회사 로고는 이력서 정보로 유지한다(CLAUDE.md) */
+  .record{ margin-top:clamp(88px, 14vh, 140px); row-gap:28px; font-size:13px; color:var(--ink-soft); }
+  .record::before{ content:''; grid-column:1 / -1; height:1px; background:var(--line); }
+  .record .label{ display:block; margin-bottom:12px; }
+  .record .career{ grid-column:1 / 6; }
+  .record .tools{ grid-column:7 / 10; }
+  .record .also{ grid-column:10 / -1; }
+  .co{ display:grid; grid-template-columns:92px 1fr auto; align-items:center; gap:10px; padding:6px 0; }
+  .co img{ height:18px; width:auto; max-width:92px; object-fit:contain; object-position:left center; }
+  .co .period{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); }
+  .record p{ line-height:1.75; }
+
+  /* ---------- Contact ---------- */
+  .contact{ padding-top:clamp(160px, 26vh, 280px); padding-bottom:clamp(64px, 10vh, 112px); }
+  .contact .lead{ font-size:clamp(15px, 1.3vw, 17px); color:var(--ink-soft); }
+  .contact h2{ margin-top:14px; font-size:clamp(56px, 11vw, 168px); line-height:1; letter-spacing:-0.06em; font-weight:700; }
+  .contact h2 em{ font-style:normal; color:var(--accent); }
+  .contact .ways{ display:flex; flex-wrap:wrap; gap:14px 40px; margin-top:clamp(40px, 6vh, 64px); font-size:clamp(17px, 1.6vw, 21px); }
+  .contact .ways a{ text-decoration:none; padding-bottom:4px; border-bottom:1px solid var(--line); transition:border-color .3s ease; }
+  .contact .ways a:hover{ border-bottom-color:var(--ink); }
+
+  footer{ padding-block:22px 36px; border-top:1px solid var(--line); }
+  footer .page{ display:flex; justify-content:space-between; gap:12px 24px; flex-wrap:wrap; font-size:12px; color:var(--ink-faint); }
+  footer a{ text-decoration:none; }
+  footer a:hover{ color:var(--ink); }
+
   @media (prefers-reduced-motion:reduce){
-    .hh-in{ transform:none; }
-    .hero-sub{ opacity:1; }
-    .hv-stack .reel{ animation:none; }
-    .hero-photo{ transform:none; }
+    html{ scroll-behavior:auto; }
+    *{ animation:none !important; transition:none !important; }
+    .rules i, .hl > span{ transform:none; }
+    .rv{ opacity:1; transform:none; } .unveil{ clip-path:none; }
+    .ask .ask-q .w{ opacity:1; transform:none; color:var(--ink); } .ask-line{ transform:none; } .ask-by{ opacity:1; }
   }
-
-  /* ---------- Selected Work ---------- */
-  .work{ padding:112px 0 64px; border-bottom:1px solid var(--line); }
-  .work-head{ margin-bottom:64px; }
-  .work-head h2{ font-size:clamp(24px,3.2vw,32px); line-height:1.4; margin-top:10px; max-width:640px; }
-  .work-item{
-    display:grid; grid-template-columns:56px 1fr; column-gap:24px; align-items:start;
-    padding:36px 0; border-top:1px solid var(--line);
-  }
-  .work-list .work-item:last-child{ border-bottom:1px solid var(--line); }
-  .work-num{ font-size:13px; color:var(--ink-faint); padding-top:8px; }
-  .work-q{ font-weight:700; font-size:clamp(21px,2.6vw,28px); line-height:1.4; color:var(--ink); margin:0; }
-  .work-meta{ margin-top:14px; font-size:13px; color:var(--ink-faint); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .work-detail{ margin-top:10px; font-size:15px; line-height:1.7; color:var(--ink-soft); max-width:600px; }
-  .work-note{ margin-top:40px; }
-  .work-note p{ font-size:14.5px; color:var(--ink-faint); }
-  .case-link{ color:var(--accent-ink); font-weight:700; text-decoration:underline; text-decoration-color:var(--accent-line); text-underline-offset:3px; transition:text-decoration-color 0.2s ease; }
-  .case-link:hover{ text-decoration-color:var(--accent-ink); }
-  .work .aside{ margin-top:44px; padding-top:28px; border-top:1px dashed var(--line); }
-  .work .aside p{ font-size:14.5px; color:var(--ink-faint); margin-bottom:0; }
-  .work .tools{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-bottom:18px; }
-  .work .tool{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; }
-  .work .tool img{ width:16px; height:16px; }
-  .co-list{ display:flex; flex-wrap:wrap; align-items:center; gap:10px 22px; margin-top:16px; }
-  .co-chip{ display:inline-flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); }
-  .co-chip img{ height:16px; width:auto; }
-  .co-chip img[alt="프롬더레드"]{ height:21px; }
-  .co-chip .period{ color:var(--ink-faint); font-family:'JetBrains Mono',monospace; font-size:11.5px; }
-  @media (max-width:640px){
-    .work{ padding:72px 0 48px; }
-    .work-item{ grid-template-columns:1fr; row-gap:6px; }
-    .work-num{ padding-top:0; }
-  }
-
-  .reveal{ opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.is-visible{ opacity:1; transform:translateY(0); }
-  @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; } }
-
-  /* ---------- CTA / closing ---------- */
-  .closing{ background:var(--navy); color:var(--navy-ink); padding:80px 0; }
-  .closing h2{ color:var(--navy-ink); font-size:clamp(24px,3.6vw,34px); line-height:1.4; max-width:600px; }
-  .closing .sub{ margin-top:14px; color:var(--navy-ink-soft); font-size:14.5px; max-width:480px; }
-  .cta-row{ margin-top:40px; display:flex; flex-wrap:wrap; gap:14px; }
-  .cta{
-    display:inline-flex; align-items:center; gap:9px; padding:14px 22px; border-radius:12px;
-    font-weight:700; font-size:14.5px; text-decoration:none; border:1px solid transparent;
-  }
-  .cta.coffee{ background:var(--coffee-soft); color:var(--coffee); border-color:var(--coffee-line); }
-  .cta.coffee svg{ width:16px; height:16px; }
-  .cta.mail{ background:rgba(255,255,255,0.06); color:var(--navy-ink); border-color:rgba(255,255,255,0.16); }
-  .cta.mail:hover{ background:rgba(255,255,255,0.1); }
-  .cta.coffee:hover{ background:#f1ded0; }
-  .cta.case{ background:var(--accent); color:#fff; }
-  .cta.case:hover{ background:#2444b8; }
-  .closing .note{ margin-top:16px; font-size:12px; color:var(--navy-ink-soft); opacity:0.75; }
-
-  footer.pagefoot{ padding:36px 0 64px; font-size:12.5px; color:var(--ink-faint); }
-  footer.pagefoot .foot-row{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px 24px; max-width:1040px; }
-  footer.pagefoot a{ color:var(--ink-faint); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:1px; }
-  footer.pagefoot a:hover{ color:var(--accent-ink); border-color:var(--accent-line); }
-  footer.pagefoot .foot-contact{ display:flex; gap:18px; flex-wrap:wrap; }
 </style>
 </head>
 <body>
-<article>
 
-  <nav class="nav">
-    <div class="wrap">
-      <a class="id" href="index.html"><img src="assets/brand/askbetter-logo.svg" alt="ASKBETTER"></a>
-      <div class="links">
-        <a href="#work" data-site="nav.work">Work</a>
-        <a href="case-study.html" data-site-href="story.href"><span data-site="nav.story">Interview</span></a>
-        <div class="sep"></div>
-        <a class="cta" href="#contact" data-site="nav.contact">Contact</a>
-      </div>
+<nav class="nav" id="nav">
+  <div class="page">
+    <a class="id" href="index.html"><img src="assets/brand/askbetter-logo.svg" alt="ASKBETTER"></a>
+    <div class="links">
+      <a href="#work" data-site="nav.work">Work</a>
+      <a class="opt" href="#about" data-site="nav.about">About</a>
+      <a href="case-study.html" data-site-href="story.href" data-site="nav.story">Interview</a>
+      <a href="#contact" data-site="nav.contact">Contact</a>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- Hero -->
-  <section class="hero" id="hero" data-hero="stack">
-    <div class="hero-photo" aria-hidden="true"></div>
-    <div class="wrap hero-wrap">
-      <div class="hero-body">
-        <div class="hv hv-stack" aria-hidden="true"><div class="reel" id="heroReel"></div></div>
-        <div class="hv hv-q"><span class="hv-mk">Q.</span><p id="heroQ" data-site="hero.q">더 나은 제품은 어디서 시작될까?</p></div>
-        <div class="hero-main">
-          <span class="hv hv-a hv-mk">A.</span>
-          <div>
-            <h1 class="hero-head">
-              <span class="hh-line hh-1"><span class="hh-in">좋은 <em>질문</em>이,</span></span>
-              <span class="hh-line hh-2"><span class="hh-in">더 나은 제품을 만듭니다.</span></span>
-            </h1>
-            <div class="hero-row">
-              <p class="hero-sub" data-site="hero.sub">문제를 발견하고 제품의 방향을 만들어가는 기록</p>
-              <aside class="hv hv-note" aria-label="작업에서 던진 질문">
-                <span class="lbl" id="heroNoteLbl">Q. 01</span>
-                <div class="qs" id="heroNote"></div>
-              </aside>
-            </div>
-          </div>
-        </div>
+<main>
+
+  <!-- Opening: 헤드라인 두 줄과, 여백에서 정렬되는 질문 하나 -->
+  <section class="opening" id="opening">
+    <div class="rules" aria-hidden="true"><div class="page"><i></i><i></i><i></i><i></i></div></div>
+    <div class="page">
+      <div class="ask" id="ask" aria-live="off">
+        <span class="label"><b id="askNo">Q.01</b><span id="askTotal">/ 04</span></span>
+        <p class="ask-q" id="askQ">반복되는 기획 업무를 어디까지 자동화할 수 있을까?</p>
+        <div class="ask-line"></div>
+        <p class="ask-by mono" id="askBy">Claude TFT, 2025</p>
       </div>
-      <div class="hero-foot">
-        <span data-site="hero.role">Product Manager · 데이터 기반 전략 × UX</span>
-        <a href="#work">Selected Work ↓</a>
+      <h1 class="headline">
+        <span class="hl"><span>좋은 <em>질문</em>이,</span></span>
+        <span class="hl"><span>더 나은 제품을 만듭니다.</span></span>
+      </h1>
+      <div class="opening-foot">
+        <span data-site="hero.role">안녕하세요, 기획자 박유진이라고 합니다.</span>
+        <a href="#work" class="mono">Selected Work ↓</a>
       </div>
     </div>
   </section>
 
-  <!-- Selected Work -->
-  <section class="work" id="work">
-    <div class="wrap">
-      <div class="work-head reveal">
-        <div class="eyebrow mono">01 · Selected Work</div>
-        <h2>어떤 질문으로 일해왔는지</h2>
-      </div>
+  <!-- Work -->
+  <section id="work">
+    <div class="page grid work-intro rv">
+      <span class="label">Selected Work · 2019–2026</span>
+      <p>무엇을 만들었는지보다, 어떤 질문에서 시작했는지부터 적었습니다.</p>
+    </div>
 
-      <div class="work-list">
-        <div class="work-item reveal">
-          <span class="work-num mono">01</span>
-          <div>
-            <h3 class="work-q">반복되는 기획 업무를<br>어디까지 자동화할 수 있을까?</h3>
-            <div class="work-meta mono">Claude TFT · 더존비즈온 · 2025 <a class="case-link" href="case-study.html" data-site-href="story.href"><span data-site="story.label">인터뷰</span> →</a></div>
-            <p class="work-detail">반복되는 Jira 티켓 작성·QA 검토를 자동화하는 워크플로 설계.</p>
+    <!-- 01 -->
+    <article class="ch ch-1">
+      <div class="page grid">
+        <div class="txt rv">
+          <span class="ch-no">01</span>
+          <h2 class="ch-q" data-site="work.0.q">반복되는 기획 업무를 어디까지 자동화할 수 있을까?</h2>
+          <p class="ch-meta" style="margin-top:24px"><b data-site="work.0.name">Claude TFT</b><span data-site="work.0.org">더존비즈온</span> · <span data-site="work.0.year">2025</span></p>
+          <div class="ch-notes">
+            <div><span class="label">Work</span><span data-site="work.0.did">반복되는 Jira 티켓 작성·QA 검토를 자동화하는 워크플로 설계.</span></div>
+            <div><span class="label">Result</span><span data-site="work.0.result"></span></div>
           </div>
+          <a class="ch-link" href="case-study.html" data-site-href="story.href"><span data-site="story.label">인터뷰</span> 읽기 →</a>
         </div>
-
-        <div class="work-item reveal">
-          <span class="work-num mono">02</span>
-          <div>
-            <h3 class="work-q">복잡한 금융 업무를<br>어떻게 더 명확하게 만들 수 있을까?</h3>
-            <div class="work-meta mono">DJBank · 더존비즈온 · 2025</div>
-            <p class="work-detail">ERP 급여 데이터와 은행 이체 업무를 연동해 급여이체 서비스를 상용화.</p>
-          </div>
-        </div>
-
-        <div class="work-item reveal">
-          <span class="work-num mono">03</span>
-          <div>
-            <h3 class="work-q">사용자가 겪는 불편함에서<br>무엇을 먼저 바꿔야 할까?</h3>
-            <div class="work-meta mono">AI 수임처 연말정산 웹 · 더존비즈온 · 2026</div>
-            <p class="work-detail">VOC 기반으로 재설계, 사내 '최고의 기획자상' 수상.</p>
-          </div>
-        </div>
-
-        <div class="work-item reveal">
-          <span class="work-num mono">04</span>
-          <div>
-            <h3 class="work-q">학생·초보 개발자가<br>계속 만들고 싶어지는 이유는 무엇일까?</h3>
-            <div class="work-meta mono">게임 제작 툴 &amp; 커뮤니티 · 프롬더레드 · 2019–2024</div>
-            <p class="work-detail">GA 데이터로 운영 방향을 검증하며 이탈률 개선, DAU 상승. 초·중학교 대상 MOU 체결로 B2B 확장.</p>
-          </div>
+        <div class="media">
+          <div class="shot unveil"><img src="assets/portal-hero.jpg" alt="WH-TFT 사내 도구 포털 실제 화면" loading="lazy"></div>
+          <div class="shot sub rv"><img src="assets/product-tools-qa-input.jpg" alt="Product-Tools 제플린-기획서 대조 입력 화면" loading="lazy"></div>
+          <p class="cap mono">사내 도구 포털 / 기획서 대조 도구</p>
         </div>
       </div>
+    </article>
 
-      <div class="work-note reveal">
-        <p>지금은 이스트시큐리티에서 정보보안이라는 새로운 도메인을 배우는 중입니다.</p>
-        <div class="co-list">
-          <span class="co-chip"><img src="assets/logos/estsecurity.png" alt="이스트시큐리티">이스트시큐리티 <span class="period">2026.09–</span></span>
-          <span class="co-chip"><img src="assets/logos/douzone.png" alt="더존비즈온">더존비즈온 <span class="period">2024–2026</span></span>
-          <span class="co-chip"><img src="assets/logos/fromthered.png" alt="프롬더레드">프롬더레드 <span class="period">2019–2024</span></span>
+    <!-- 02 -->
+    <article class="ch ch-2">
+      <div class="page grid head rv">
+        <div class="q-col">
+          <span class="ch-no">02</span>
+          <h2 class="ch-q" data-site="work.1.q">복잡한 금융 업무를 어떻게 더 명확하게 만들 수 있을까?</h2>
+        </div>
+        <p class="ch-meta meta-col"><b data-site="work.1.name">DJBank</b><span data-site="work.1.org">더존비즈온</span> · <span data-site="work.1.year">2025</span></p>
+      </div>
+      <div class="bleed">
+        <div class="plate unveil" aria-hidden="true">
+          <span class="label" data-site="work.1.name">DJBank</span><span class="tick"></span>
+          <span class="word" data-site="work.1.plate">명확하게</span>
         </div>
       </div>
-
-      <div class="aside reveal">
-        <div class="tools">
-          <span class="tool"><img src="assets/logos/figma.svg" alt="">Figma</span>
-          <span class="tool"><img src="assets/logos/sketch.svg" alt="">Sketch</span>
-          <span class="tool"><img src="assets/logos/claude.svg" alt="">Claude Code</span>
-          <span class="tool"><img src="assets/logos/googleanalytics.svg" alt="">Google Analytics</span>
-          <span class="tool"><img src="assets/logos/confluence.svg" alt="">Confluence</span>
-          <span class="tool"><img src="assets/logos/jira.svg" alt="">Jira</span>
+      <div class="page grid foot rv">
+        <div class="ch-notes">
+          <div><span class="label">Work</span><span data-site="work.1.did">ERP 급여 데이터와 은행 이체 업무를 연동.</span></div>
+          <div><span class="label">Result</span><span data-site="work.1.result">급여이체 서비스 상용화.</span></div>
         </div>
-        <p>개발자 밋업을 기획하거나 북클럽 모임에 나가는 것도 좋아합니다.</p>
+      </div>
+    </article>
+
+    <!-- 03 -->
+    <article class="ch ch-3">
+      <div class="page grid">
+        <div class="q-col rv">
+          <span class="ch-no">03</span>
+          <h2 class="ch-q" data-site="work.2.q">사용자가 겪는 불편함에서 무엇을 먼저 바꿔야 할까?</h2>
+        </div>
+        <div class="meta-col rv">
+          <p class="ch-meta"><b data-site="work.2.name">AI 수임처 연말정산 웹</b><span data-site="work.2.org">더존비즈온</span> · <span data-site="work.2.year">2026</span></p>
+          <div class="ch-notes">
+            <div><span class="label">Work</span><span data-site="work.2.did">VOC 기반으로 재설계.</span></div>
+            <div><span class="label">Result</span><span data-site="work.2.result">사내 '최고의 기획자상' 수상.</span></div>
+          </div>
+        </div>
+        <div class="plate-col">
+          <div class="plate unveil" aria-hidden="true">
+            <span class="label" data-site="work.2.name">AI 수임처 연말정산 웹</span><span class="tick"></span>
+            <span class="word" data-site="work.2.plate">불편함</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- 04 -->
+    <article class="ch ch-4">
+      <div class="page grid">
+        <div class="plate-col">
+          <div class="plate unveil" aria-hidden="true">
+            <span class="label" data-site="work.3.org">프롬더레드</span><span class="tick"></span>
+            <span class="word" data-site="work.3.plate">계속</span>
+          </div>
+        </div>
+        <div class="txt rv">
+          <span class="ch-no">04</span>
+          <h2 class="ch-q" data-site="work.3.q">학생·초보 개발자가 계속 만들고 싶어지는 이유는 무엇일까?</h2>
+          <p class="ch-meta" style="margin-top:24px"><b data-site="work.3.name">게임 제작 툴 &amp; 커뮤니티</b><span data-site="work.3.org">프롬더레드</span> · <span data-site="work.3.year">2019–2024</span></p>
+          <div class="ch-notes">
+            <div><span class="label">Work</span><span data-site="work.3.did">GA 데이터로 운영 방향을 검증.</span></div>
+            <div><span class="label">Result</span><span data-site="work.3.result">이탈률 개선, DAU 상승. 초·중학교 대상 MOU 체결로 B2B 확장.</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- About: 경력보다 일하는 방식을 먼저 -->
+  <section class="about" id="about">
+    <div class="page grid">
+      <span class="label rv">How I work</span>
+      <div class="believes">
+        <div class="rv">
+          <span class="label">좋아하는 문제</span>
+          <p>여러 사람이 손으로 되풀이하는 일, 복잡해서 아무도 다시 묻지 않게 된 업무를 좋아합니다.</p>
+        </div>
+        <div class="rv">
+          <span class="label">일하는 방식</span>
+          <p>답을 정하기 전에 <em>질문</em>부터 다시 씁니다. VOC와 데이터로 무엇이 진짜 문제인지 먼저 확인합니다.</p>
+        </div>
+        <div class="rv">
+          <span class="label">중요하게 보는 것</span>
+          <p>쓰는 사람이 설명 없이도 이해할 수 있는지를 봅니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page grid record rv">
+      <div class="career">
+        <span class="label">Career</span>
+        <div class="co"><img src="assets/logos/estsecurity.png" alt="">이스트시큐리티<span class="period">2026.09–</span></div>
+        <div class="co"><img src="assets/logos/douzone.png" alt="">더존비즈온<span class="period">2024–2026</span></div>
+        <div class="co"><img src="assets/logos/fromthered.png" alt="">프롬더레드<span class="period">2019–2024</span></div>
+      </div>
+      <div class="tools">
+        <span class="label">Tools</span>
+        <p>Figma, Sketch, Claude Code, Google Analytics, Confluence, Jira</p>
+      </div>
+      <div class="also">
+        <span class="label">Now</span>
+        <p>이스트시큐리티에서 정보보안이라는 새로운 도메인을 배우는 중입니다. 개발자 밋업을 기획하거나 북클럽 모임에 나가는 것도 좋아합니다.</p>
       </div>
     </div>
   </section>
 
-  <!-- Closing / CTA -->
-  <section class="closing" id="contact">
-    <div class="wrap">
-      <div class="eyebrow on-dark" style="margin-bottom:14px;">커피챗</div>
-      <h2>일 이야기든, 가벼운 커피챗이든 편하게 연락 주세요.</h2>
-      <p class="sub">궁금한 점은 메일로 문의해주시고, 도움이 됐다면 커피 한 잔으로 응원해주셔도 좋습니다.</p>
-      <div class="cta-row">
-        <a class="cta coffee" href="#" aria-label="토스 프로필로 커피 후원하기">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
-          커피 한 잔 후원하기
-        </a>
-        <a class="cta mail" href="mailto:71d2sr@gmail.com">이메일로 문의하기</a>
-        <a class="cta case" href="case-study.html" data-site-href="story.href"><span data-site="story.label">인터뷰</span> 보기 →</a>
-      </div>
-      <p class="note">후원 링크는 토스 프로필 연결 예정입니다.</p>
-    </div>
-  </section>
-
-  <footer class="pagefoot">
-    <div class="wrap foot-row">
-      <span>ASKBETTER · Product Manager</span>
-      <span class="foot-contact">
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="page rv">
+      <p class="lead">함께 이야기해보고 싶다면.</p>
+      <h2>Let's talk<em>.</em></h2>
+      <div class="ways">
         <a href="mailto:71d2sr@gmail.com">71d2sr@gmail.com</a>
-        <a href="https://linkedin.com/in/yujin1113" target="_blank" rel="noopener">LinkedIn</a>
-      </span>
-      <span><a href="case-study.html" data-site-href="story.href">Claude TFT <span data-site="story.label">인터뷰</span> →</a></span>
+        <a href="https://linkedin.com/in/yujin1113" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
     </div>
-  </footer>
+  </section>
 
-</article>
-<script>
-  var reveals = document.querySelectorAll('.reveal');
-  if ('IntersectionObserver' in window && reveals.length) {
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(function(el){ io.observe(el); });
-  } else {
-    reveals.forEach(function(el){ el.classList.add('is-visible'); });
-  }
-</script>
+</main>
+
+<footer>
+  <div class="page">
+    <span>© 2026 ASKBETTER</span>
+    <a href="case-study.html" data-site-href="story.href">Claude TFT <span data-site="story.label">인터뷰</span> →</a>
+  </div>
+</footer>
+
 <script src="assets/site.js"></script>
 <script>
-  // Hero: SITE.hero 설정으로 구성을 고르고, 화면에 들어오면 한 번 흐른다
   (function(){
-    var hero = document.getElementById('hero');
-    var cfg = (window.SITE && window.SITE.hero) || {};
-    var pick = new URLSearchParams(location.search).get('hero');
-    var variant = ['note','stack','qa'].indexOf(pick) >= 0 ? pick : (cfg.variant || 'stack');
-    hero.setAttribute('data-hero', variant);
-    var qs = cfg.questions || [];
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('is-in', 'is-lit'); }); });
+    // 스크롤하면 헤더에 얇은 선
+    var nav = document.getElementById('nav');
+    var onScroll = function(){ nav.classList.toggle('is-scrolled', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
 
-    if (variant === 'stack') {
-      var reel = document.getElementById('heroReel');
-      var html = qs.map(function(q){ return '<p>' + q.text + '</p>'; }).join('');
-      reel.innerHTML = html + html;   // 두 번 이어 붙여 끊김 없이 돈다
+    // 화면에 들어온 요소만 한 번 드러낸다
+    var targets = document.querySelectorAll('.rv, .unveil, .plate');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+      }, { threshold:0.12, rootMargin:'0px 0px -48px 0px' });
+      targets.forEach(function(el){ io.observe(el); });
+    } else {
+      targets.forEach(function(el){ el.classList.add('is-in'); });
     }
 
-    if (variant === 'note') {
-      var box = document.getElementById('heroNote'), lbl = document.getElementById('heroNoteLbl');
-      var work = qs.filter(function(q){ return q.meta; });
-      box.innerHTML = work.map(function(q, i){
-        return '<span' + (i === 0 ? ' class="on"' : '') + '>' + q.text + '<small>' + q.meta + '</small></span>';
-      }).join('');
-      var items = box.children, i = 0, pad = function(n){ return (n < 10 ? '0' : '') + n; };
-      lbl.textContent = 'Q. ' + pad(1) + ' / ' + pad(work.length);
-      if (!reduce && items.length > 1) setInterval(function(){
-        items[i].classList.remove('on'); i = (i + 1) % items.length; items[i].classList.add('on');
-        lbl.textContent = 'Q. ' + pad(i + 1) + ' / ' + pad(items.length);
-      }, 5000);
-    }
+    var opening = document.getElementById('opening');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ opening.classList.add('is-in'); }); });
 
-    if (variant === 'qa' && !reduce) {
-      var q = document.getElementById('heroQ'), text = q.textContent;
-      q.textContent = '';
-      Array.from(text).forEach(function(c, k){
-        var s = document.createElement('span'); s.className = 'ch'; s.textContent = c; q.appendChild(s);
-        setTimeout(function(){ s.classList.add('on'); }, 300 + k * 70);
+    // 여백의 질문: 흩어진 낱말 → 한 줄 정렬 → 선과 작업 이름 → 사라지고 다음 질문
+    var SITE = window.SITE || {};
+    var work = (SITE.work || []).filter(function(w){ return w.q; });
+    if (!work.length) return;
+    var ask = document.getElementById('ask'), q = document.getElementById('askQ'), by = document.getElementById('askBy');
+    var no = document.getElementById('askNo'), total = document.getElementById('askTotal');
+    var interval = (SITE.hero && SITE.hero.interval) || 7000;
+    var OUT_MS = 800;   // 사라지는 데 걸리는 시간. CSS .is-out 전환 길이와 맞춘다
+    var pad = function(n){ return (n < 10 ? '0' : '') + n; };
+    var i = 0;
+
+    function show(k){
+      var w = work[k];
+      q.innerHTML = '';
+      w.q.split(' ').forEach(function(word, n, all){
+        var s = document.createElement('span');
+        s.className = 'w';
+        s.textContent = word + (n < all.length - 1 ? ' ' : '');
+        // 낱말마다 다른 거리에서 출발해 제자리로 모인다
+        s.style.setProperty('--dx', Math.round((Math.random() - .5) * 72) + 'px');
+        s.style.setProperty('--dy', Math.round((Math.random() - .5) * 36) + 'px');
+        s.style.transitionDelay = (n * 70) + 'ms';
+        q.appendChild(s);
       });
+      by.textContent = w.name + ', ' + w.year;
+      no.textContent = 'Q.' + pad(k + 1);
+      total.textContent = '/ ' + pad(work.length);
+      ask.classList.remove('is-out', 'is-set');
+      void q.offsetWidth;
+      requestAnimationFrame(function(){ ask.classList.add('is-set'); });
     }
+
+    show(0);
+    if (reduce || work.length < 2) return;
+    setInterval(function(){
+      ask.classList.add('is-out');
+      setTimeout(function(){ i = (i + 1) % work.length; show(i); }, OUT_MS);
+    }, interval);
   })();
 </script>
 </body>
