@@ -327,8 +327,15 @@
   .nav .id{ display:flex; align-items:center; gap:9px; font-weight:900; font-size:15px; letter-spacing:-0.01em; text-decoration:none; color:var(--ink); }
   .nav .id img{ display:block; width:160px; height:auto; }
   .nav .links{ display:flex; align-items:center; gap:26px; font-size:13.5px; font-weight:700; color:var(--ink-soft); }
+  .nav .links a{ position:relative; text-decoration:none; transition:color 0.2s ease; }
+  .nav .links a:not(.cta)::after{
+    content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:var(--ink);
+    transform:scaleX(0); transform-origin:right; transition:transform 0.25s ease;
+  }
+  .nav .links a:not(.cta):hover::after{ transform:scaleX(1); transform-origin:left; }
   .nav .links a:hover{ color:var(--ink); }
-  .nav .links a.cta{ background:var(--ink); color:#fff; padding:8px 16px; border-radius:100px; font-weight:700; }
+  .nav .links a.cta{ background:var(--ink); color:#fff; padding:8px 16px; border-radius:100px; font-weight:700; transition:background 0.2s ease, transform 0.2s ease; }
+  .nav .links a.cta:hover{ background:var(--navy, #0f1830); transform:translateY(-1px); }
   @media (max-width:640px){ .nav .links{ gap:14px; font-size:12.5px; } .nav .links a.cta{ padding:7px 12px; } }
 
   /* ---------- Closing CTA row ---------- */
