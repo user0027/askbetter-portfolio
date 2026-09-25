@@ -253,6 +253,18 @@
   .closing .sub{ margin-top:20px; color:var(--navy-ink-soft); font-size:15px; max-width:520px; }
 
   /* appendix */
+  /* 처음 읽는 분께: 입문자용 안내와 용어 풀이 */
+  .primer{ padding:8px 0 24px; }
+  .primer .box{ border:1px solid var(--line); border-radius:14px; padding:26px 30px; }
+  .primer h2{ font-size:16px; font-weight:900; margin-bottom:10px; }
+  .primer .lead{ font-size:15.5px; line-height:1.85; color:#232a40; margin:0 0 18px; }
+  .primer .terms{ border-top:1px solid var(--line); }
+  .primer .term{ display:grid; grid-template-columns:140px 1fr; gap:16px; padding:12px 0; border-bottom:1px solid var(--line); font-size:14.5px; line-height:1.7; }
+  .primer .term:last-child{ border-bottom:none; }
+  .primer .term .k{ font-weight:700; color:var(--ink); }
+  .primer .term .v{ color:var(--ink-soft); }
+  @media (max-width:640px){ .primer .box{ padding:22px 20px; } .primer .term{ grid-template-columns:1fr; gap:2px; } }
+  .appendix .go{ display:inline-flex; gap:8px; font-size:15px; font-weight:700; color:var(--ink); text-decoration:none; border-bottom:1px solid var(--ink); padding-bottom:3px; }
   .appendix{ padding:56px 0 96px; }
   .appendix h2{ font-size:20px; color:var(--ink-faint); margin-bottom:8px; }
   .appendix .lede{ font-size:13.5px; color:var(--ink-faint); margin-bottom:28px; }
@@ -408,6 +420,25 @@
         <div class="stat"><div class="n">31<span style="font-size:15px;color:var(--ink-faint);">건</span></div><div class="l">사용하며 기준을 고친 기록</div></div>
       </div>
       <p class="caveat">유진님은 이 숫자를 어떤 일이 실제로 AI에게 맡겨졌는지 보여 주는 지표로 보고, 성과를 증명하는 근거로는 쓰지 않는다고 했어요.</p>
+    </div>
+  </section>
+
+  <!-- 처음 읽는 분께 -->
+  <section class="primer">
+    <div class="wrap narrow">
+      <div class="box">
+        <h2>처음 읽는 분께</h2>
+        <p class="lead">이 인터뷰는 개발을 하지 않는 기획자가 매달 하던 업무에 AI를 붙여 본 이야기입니다. 코드나 명령어를 몰라도 읽을 수 있도록, 본문에 자주 나오는 말을 먼저 정리했습니다.</p>
+        <div class="terms">
+          <div class="term"><div class="k">세무달력</div><div class="v">매달 그달의 세무 일정을 원본 문서에서 확인해 달력 화면으로 만들어 보내던 업무입니다. 이 인터뷰의 첫 사례입니다.</div></div>
+          <div class="term"><div class="k">스펙</div><div class="v">화면이 어떻게 보이고 어떻게 동작하는지 적은 기획 문서입니다.</div></div>
+          <div class="term"><div class="k">시안</div><div class="v">디자이너가 만든 화면 디자인입니다. 기획서와 맞게 그려졌는지 대조하는 일이 본문에 나옵니다.</div></div>
+          <div class="term"><div class="k">검수</div><div class="v">만든 결과물이 정한 기준대로 됐는지 확인하는 일입니다.</div></div>
+          <div class="term"><div class="k">규칙</div><div class="v">AI가 무엇을 맞다고 보고 무엇을 걸러 낼지 미리 정해 둔 기준입니다.</div></div>
+          <div class="term"><div class="k">포털</div><div class="v">팀원이 만든 도구를 한곳에서 찾아 설치하거나 바로 열 수 있게 모아 둔 사내 페이지입니다.</div></div>
+          <div class="term"><div class="k">지라 · 위키 · 제플린</div><div class="v">각각 업무 요청 관리, 문서 공유, 디자인 전달에 쓰는 협업 도구입니다.</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -695,7 +726,7 @@
       </div>
       <div class="shot">
         <img src="assets/wh-tft-portal-install-tools.jpg" alt="WH-TFT 포털 설치 도구 목록 실제 화면">
-        <div class="cap">실제 화면 · 카드 넘기기 아래로 이어지는 설치 도구 목록, curl 한 줄로 설치</div>
+        <div class="cap">실제 화면 · 카드 넘기기 아래로 이어지는 설치 도구 목록, 카드에 적힌 한 줄을 복사해 실행하면 설치됩니다</div>
       </div>
     </div>
   </section>
@@ -769,36 +800,12 @@
     </div>
   </section>
 
-  <!-- Appendix -->
+  <!-- 더 깊이: 설치 방법과 도구 구성은 숙련자용 페이지로 옮겼다 -->
   <section class="appendix">
     <div class="wrap narrow">
-      <h2>부록</h2>
-      <p class="lede">구성 · 전달 방법 · 실행 환경. 필요할 때만 참고합니다.</p>
-
-      <details>
-        <summary>팀에는 명령 두 줄로 전달했습니다</summary>
-        <div class="details-body">
-          <div class="row"><div class="k">01 목록 등록</div><div>/plugin marketplace add 주소</div></div>
-          <div class="row"><div class="k">02 설치</div><div>/plugin install 이름</div></div>
-          <div class="row"><div class="k">03 새 창 열기</div><div>새 창에서 적용</div></div>
-          <p style="margin-top:12px;">CLI 명령이 낯선 팀원에게는 포털의 설치 카드에서 토큰이 담긴 curl 한 줄을 대신 건넸습니다. 직접 띄워 둔 개인 서버를 거쳐 같은 결과로 끝나는, 실제로 돌아가던 경로였습니다.</p>
-          <p style="margin-top:12px;">전달 전 사내 주소, 계정 식별자, 캡처 속 이름과 사진은 제외했습니다.</p>
-          <div class="shot" style="margin:16px 0 0;">
-            <img src="assets/wh-tft-portal-install-tools.jpg" alt="WH-TFT 포털 설치 카드의 curl 명령 실제 화면">
-            <div class="cap">실제 화면 · 설치 카드에 그대로 뜨는 curl 한 줄(주소·토큰 값은 가림)</div>
-          </div>
-        </div>
-      </details>
-
-      <details>
-        <summary>Plugin 안은 스킬 · 커맨드 · 훅으로 나뉩니다</summary>
-        <div class="details-body">
-          <div class="row"><div class="k">스킬</div><div>요청과 맞으면 Claude가 찾아 읽습니다. 예: "이 화면 스펙 작성해줘"</div></div>
-          <div class="row"><div class="k">커맨드</div><div>사람이 이름을 직접 입력해 실행합니다. 예: /guide-qa</div></div>
-          <div class="row"><div class="k">훅</div><div>정해진 상황마다 자동 실행됩니다. 예: 새 배포본 자동 갱신</div></div>
-          <p style="margin-top:12px;">셋 다 문서 한 장이고, 누가 부르는지만 다릅니다. 기획자도 열어서 고칠 수 있는 문서 형태입니다.</p>
-        </div>
-      </details>
+      <h2>더 깊이 보고 싶다면</h2>
+      <p class="lede">설치 방법, 도구 안의 구성(스킬 · 커맨드 · 훅), 검수 규칙과 폴더 구조는 숙련자용 페이지에 따로 정리했습니다.</p>
+      <a class="go" href="deep-dive.html" data-site-href="advanced.href">숙련자용 페이지 보기 <span>→</span></a>
     </div>
   </section>
 
