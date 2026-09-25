@@ -99,65 +99,92 @@
     .nav .links{ width:100%; justify-content:flex-start; }
   }
 
-  /* ---------- Hero ---------- */
+  /* ---------- Hero ----------
+     세 가지 구성을 assets/site.js 의 SITE.hero.variant 로 고른다('note' · 'stack' · 'qa').
+     주소 뒤에 ?hero=note 처럼 붙이면 설정을 바꾸지 않고 미리 볼 수 있다. */
   .hero{
-    display:flex; flex-direction:column;
-    min-height:90vh;
-    padding:140px 0 56px;
+    position:relative; display:flex; flex-direction:column;
+    min-height:min(calc(100svh - 70px), 860px);
+    padding:24px 0 0;
     background:var(--bg);
     border-bottom:1px solid var(--line);
     overflow:hidden;
   }
-  .hero-wrap{ position:relative; flex:1; width:100%; display:flex; flex-direction:column; justify-content:space-between; }
-  .hero-stage{ position:relative; max-width:820px; transition:opacity 0.3s ease, transform 0.3s ease; }
-  .hero-mark{ position:absolute; top:-30px; right:-6px; width:164px; height:auto; pointer-events:none; z-index:0; }
-  .hero-mark .hook{
-    fill:none; stroke:var(--ink); stroke-opacity:0.12; stroke-width:13;
-    stroke-linecap:round; stroke-linejoin:round;
+  .hero-photo{
+    position:absolute; top:0; right:0; bottom:0; width:56%; z-index:0; display:none;
+    background-size:cover; background-position:center; transform:scale(1.06); transition:transform 18s linear;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 40%); mask-image:linear-gradient(to right, transparent 0%, #000 40%);
   }
-  .hero-mark .dot{
-    fill:var(--accent); opacity:0; transform:scale(0.4); transform-origin:50% 71%;
-    transition:opacity 0.4s ease, transform 0.5s cubic-bezier(.34,1.56,.64,1);
-  }
-  .hero-mark.is-drawn .dot{ opacity:1; transform:scale(1); animation:heroDotPulse 2.6s ease-in-out 0.6s infinite; }
-  @keyframes heroDotPulse{
-    0%,100%{ transform:scale(1); opacity:1; }
-    50%{ transform:scale(1.16); opacity:0.8; }
-  }
+  .hero.is-lit .hero-photo{ transform:scale(1); }
+  .hero[data-hero="stack"] .hero-photo{ display:block; background-image:url('assets/hero/arches.jpg'); }
+  .hero[data-hero="qa"] .hero-photo{ display:block; background-image:url('assets/hero/window.jpg'); background-position:30% center; }
+  .hero-wrap{ position:relative; z-index:1; flex:1; width:100%; display:flex; flex-direction:column; }
+  .hero-body{ flex:1; display:flex; flex-direction:column; justify-content:center; padding-block:40px; }
+  .hero[data-hero="stack"] .hero-body{ justify-content:flex-end; }
+
   .hero-head{
-    position:relative; z-index:1;
-    font-weight:900; font-size:clamp(34px, 5.6vw, 72px); line-height:1.34; letter-spacing:-0.01em;
-    color:var(--ink);
+    margin:0; font-weight:700; font-size:clamp(36px, 5.6vw, 80px); line-height:1.16; letter-spacing:-0.045em; color:var(--ink);
   }
-  .hh-line{ display:block; overflow:hidden; padding-bottom:0.08em; }
-  .hh-in{
-    display:inline-block; transform:translateY(100%); opacity:0;
-    transition:transform 0.7s cubic-bezier(.19,1,.22,1), opacity 0.6s ease;
+  .hero-head em{ font-style:normal; color:var(--accent); position:relative; }
+  .hh-line{ display:block; overflow:hidden; padding-bottom:0.06em; }
+  .hh-in{ display:inline-block; transform:translateY(100%); transition:transform 1s cubic-bezier(.19,1,.22,1); }
+  .hh-2 .hh-in{ transition-delay:0.14s; }
+  .hero.is-in .hh-in{ transform:none; }
+  .hero-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:32px; margin-top:32px; }
+  .hero-sub{ margin:0; font-size:clamp(15px, 1.3vw, 18px); color:var(--ink-soft); opacity:0; transition:opacity 1s ease 0.6s; }
+  .hero.is-in .hero-sub{ opacity:1; }
+  .hero-foot{
+    display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding:20px 0 26px; border-top:1px solid var(--line); font-size:13.5px; color:var(--ink-soft);
   }
-  .hh-2 .hh-in{ transition-delay:0.16s; }
-  .hero-stage.is-in .hh-in{ transform:translateY(0); opacity:1; }
-  .hero-eyebrow{
-    margin-top:26px; font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.08em;
-    color:var(--ink-faint); opacity:0; transform:translateY(6px);
-    transition:opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
+  .hero-foot a{ color:var(--ink); font-weight:700; text-decoration:none; }
+  .hero[data-hero="stack"] .hero-foot, .hero[data-hero="qa"] .hero-foot{ background:linear-gradient(to right, var(--bg) 45%, rgba(255,255,255,.7)); }
+  .hv{ display:none; }
+
+  /* note: 여백 주석 */
+  .hero[data-hero="note"] .hv-note{ display:block; }
+  .hero[data-hero="note"] .hero-head em::after{
+    content:''; position:absolute; left:0; right:0; bottom:0.02em; height:2px; background:var(--accent);
+    transform:scaleX(0); transform-origin:left; transition:transform 0.9s cubic-bezier(.2,.7,.1,1) 0.6s;
   }
-  .hero-stage.is-in .hero-eyebrow{ opacity:1; transform:translateY(0); }
-  .hero-scroll{
-    display:inline-flex; align-items:center; gap:8px; align-self:flex-start; margin-top:auto;
-    font-size:13.5px; font-weight:700; color:var(--ink); text-decoration:none; transition:color 0.2s ease;
-  }
-  .hero-scroll .arrow{ transition:transform 0.2s ease; }
-  .hero-scroll:hover{ color:var(--accent-ink); }
-  .hero-scroll:hover .arrow{ transform:translateX(4px); }
+  .hero[data-hero="note"].is-in .hero-head em::after{ transform:scaleX(1); }
+  .hv-note{ flex:none; width:min(380px, 42%); padding-left:20px; border-left:1px solid rgba(19,26,46,.28); margin-top:-4px; }
+  .hv-note .lbl{ display:block; margin-bottom:10px; font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.14em; color:var(--ink-faint); }
+  .hv-note .qs{ position:relative; height:5.2em; font-size:16px; line-height:1.6; }
+  .hv-note .qs span{ position:absolute; inset:0; opacity:0; transform:translateY(8px); transition:opacity 1s ease, transform 1s ease; }
+  .hv-note .qs span.on{ opacity:1; transform:none; }
+  .hv-note small{ display:block; margin-top:4px; font-size:12.5px; color:var(--ink-faint); }
+
+  /* stack: 질문이 흘러 한 문장으로 */
+  .hero[data-hero="stack"] .hv-stack{ display:block; }
+  .hv-stack{ position:relative; height:clamp(180px, 30vh, 280px); overflow:hidden; margin-bottom:16px;
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 60%); mask-image:linear-gradient(to bottom, transparent 0%, #000 60%); }
+  .hv-stack .reel{ position:absolute; left:0; right:0; bottom:0; animation:heroReel 48s linear infinite; }
+  .hv-stack p{ margin:0; font-size:clamp(18px, 1.9vw, 26px); line-height:1.75; font-weight:300; color:#a3a9b8; letter-spacing:-0.02em; }
+  @keyframes heroReel{ from{ transform:translateY(50%); } to{ transform:translateY(0); } }
+
+  /* qa: 문답 */
+  .hero[data-hero="qa"] .hv-q, .hero[data-hero="qa"] .hv-a{ display:block; }
+  .hero[data-hero="qa"] .hero-main{ display:grid; grid-template-columns:64px minmax(0,1fr); }
+  .hv-q{ display:none; margin-bottom:clamp(24px, 5vh, 48px); }
+  .hero[data-hero="qa"] .hv-q{ display:grid; grid-template-columns:64px minmax(0,1fr); align-items:baseline; }
+  .hv-mk{ font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.1em; color:var(--ink-faint); padding-top:.6em; }
+  .hv-q p{ margin:0; font-size:clamp(20px, 2.4vw, 34px); font-weight:300; color:var(--ink-soft); letter-spacing:-0.03em; }
+  .hv-q .ch{ opacity:0; transition:opacity .25s linear; }
+  .hv-q .ch.on{ opacity:1; }
+
   @media (max-width:860px){
-    .hero{ min-height:auto; padding:112px 0 48px; }
-    .hero-mark{ width:100px; top:-16px; right:2px; }
-    .hero-scroll{ margin-top:40px; }
+    .hero{ min-height:auto; padding-top:24px; }
+    .hero-photo{ width:100%; opacity:.3; }
+    .hero-row{ flex-direction:column; }
+    .hv-note{ width:auto; }
+    .hero[data-hero="qa"] .hero-main, .hero[data-hero="qa"] .hv-q{ grid-template-columns:40px minmax(0,1fr); }
   }
   @media (prefers-reduced-motion:reduce){
-    .hh-in{ transform:none; opacity:1; }
-    .hero-eyebrow{ opacity:1; transform:none; }
-    .hero-mark.is-drawn .dot{ animation:none; }
+    .hh-in{ transform:none; }
+    .hero-sub{ opacity:1; }
+    .hv-stack .reel{ animation:none; }
+    .hero-photo{ transform:none; }
   }
 
   /* ---------- Selected Work ---------- */
@@ -238,23 +265,33 @@
   </nav>
 
   <!-- Hero -->
-  <section class="hero" id="hero">
+  <section class="hero" id="hero" data-hero="stack">
+    <div class="hero-photo" aria-hidden="true"></div>
     <div class="wrap hero-wrap">
-      <div class="hero-stage" id="heroStage">
-        <svg class="hero-mark" id="heroMark" viewBox="0 0 140 200" aria-hidden="true">
-          <path class="hook" id="heroHook" d="M32,58 C28,24 52,4 78,6 C108,8 120,32 106,54 C96,70 72,66 70,94" />
-          <circle class="dot" cx="70" cy="142" r="11" />
-        </svg>
-        <h1 class="hero-head">
-          <span class="hh-line hh-1"><span class="hh-in">좋은 질문이,</span></span>
-          <span class="hh-line hh-2"><span class="hh-in">더 나은 제품을 만듭니다.</span></span>
-        </h1>
-        <p class="hero-eyebrow">ASKBETTER · Product Manager</p>
+      <div class="hero-body">
+        <div class="hv hv-stack" aria-hidden="true"><div class="reel" id="heroReel"></div></div>
+        <div class="hv hv-q"><span class="hv-mk">Q.</span><p id="heroQ" data-site="hero.q">더 나은 제품은 어디서 시작될까?</p></div>
+        <div class="hero-main">
+          <span class="hv hv-a hv-mk">A.</span>
+          <div>
+            <h1 class="hero-head">
+              <span class="hh-line hh-1"><span class="hh-in">좋은 <em>질문</em>이,</span></span>
+              <span class="hh-line hh-2"><span class="hh-in">더 나은 제품을 만듭니다.</span></span>
+            </h1>
+            <div class="hero-row">
+              <p class="hero-sub" data-site="hero.sub">문제를 발견하고 제품의 방향을 만들어가는 기록</p>
+              <aside class="hv hv-note" aria-label="작업에서 던진 질문">
+                <span class="lbl" id="heroNoteLbl">Q. 01</span>
+                <div class="qs" id="heroNote"></div>
+              </aside>
+            </div>
+          </div>
+        </div>
       </div>
-      <a class="hero-scroll" href="#work">
-        <span>Selected work</span>
-        <span class="arrow">→</span>
-      </a>
+      <div class="hero-foot">
+        <span data-site="hero.role">Product Manager · 데이터 기반 전략 × UX</span>
+        <a href="#work">Selected Work ↓</a>
+      </div>
     </div>
   </section>
 
@@ -372,62 +409,50 @@
   } else {
     reveals.forEach(function(el){ el.classList.add('is-visible'); });
   }
-
-  // Hero: entrance draw-in + living mark
+</script>
+<script src="assets/site.js"></script>
+<script>
+  // Hero: SITE.hero 설정으로 구성을 고르고, 화면에 들어오면 한 번 흐른다
   (function(){
-    var stage = document.getElementById('heroStage');
-    var hook = document.getElementById('heroHook');
-    var mark = document.getElementById('heroMark');
-    if (!stage || !hook) return;
+    var hero = document.getElementById('hero');
+    var cfg = (window.SITE && window.SITE.hero) || {};
+    var pick = new URLSearchParams(location.search).get('hero');
+    var variant = ['note','stack','qa'].indexOf(pick) >= 0 ? pick : (cfg.variant || 'stack');
+    hero.setAttribute('data-hero', variant);
+    var qs = cfg.questions || [];
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ hero.classList.add('is-in', 'is-lit'); }); });
 
-    if (reduceMotion) {
-      stage.classList.add('is-in');
-      mark.classList.add('is-drawn');
-    } else {
-      var len = hook.getTotalLength();
-      hook.style.strokeDasharray = String(len);
-      hook.style.strokeDashoffset = String(len);
-      requestAnimationFrame(function(){
-        hook.style.transition = 'stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)';
-        setTimeout(function(){
-          hook.style.strokeDashoffset = '0';
-          stage.classList.add('is-in');
-        }, 200);
-        setTimeout(function(){ mark.classList.add('is-drawn'); }, 1150);
-      });
+    if (variant === 'stack') {
+      var reel = document.getElementById('heroReel');
+      var html = qs.map(function(q){ return '<p>' + q.text + '</p>'; }).join('');
+      reel.innerHTML = html + html;   // 두 번 이어 붙여 끊김 없이 돈다
     }
 
-    var ticking = false;
-    function onScroll(){
-      var y = window.scrollY || window.pageYOffset;
-      var p = Math.min(Math.max(y / 100, 0), 1);
-      stage.style.opacity = String(1 - p * 0.75);
-      stage.style.transform = 'translateY(' + (-(p * 12)) + 'px)';
-      ticking = false;
+    if (variant === 'note') {
+      var box = document.getElementById('heroNote'), lbl = document.getElementById('heroNoteLbl');
+      var work = qs.filter(function(q){ return q.meta; });
+      box.innerHTML = work.map(function(q, i){
+        return '<span' + (i === 0 ? ' class="on"' : '') + '>' + q.text + '<small>' + q.meta + '</small></span>';
+      }).join('');
+      var items = box.children, i = 0, pad = function(n){ return (n < 10 ? '0' : '') + n; };
+      lbl.textContent = 'Q. ' + pad(1) + ' / ' + pad(work.length);
+      if (!reduce && items.length > 1) setInterval(function(){
+        items[i].classList.remove('on'); i = (i + 1) % items.length; items[i].classList.add('on');
+        lbl.textContent = 'Q. ' + pad(i + 1) + ' / ' + pad(items.length);
+      }, 5000);
     }
-    window.addEventListener('scroll', function(){
-      if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
-    }, { passive:true });
 
-    if (!reduceMotion && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
-      var hero = document.getElementById('hero');
-      var tx = 0, ty = 0, cx = 0, cy = 0;
-      hero.addEventListener('mousemove', function(e){
-        var r = hero.getBoundingClientRect();
-        tx = ((e.clientX - r.left) / r.width - 0.5) * 14;
-        ty = ((e.clientY - r.top) / r.height - 0.5) * 14;
+    if (variant === 'qa' && !reduce) {
+      var q = document.getElementById('heroQ'), text = q.textContent;
+      q.textContent = '';
+      Array.from(text).forEach(function(c, k){
+        var s = document.createElement('span'); s.className = 'ch'; s.textContent = c; q.appendChild(s);
+        setTimeout(function(){ s.classList.add('on'); }, 300 + k * 70);
       });
-      (function loop(){
-        cx += (tx - cx) * 0.08;
-        cy += (ty - cy) * 0.08;
-        mark.style.transform = 'translate(' + cx.toFixed(2) + 'px,' + cy.toFixed(2) + 'px)';
-        requestAnimationFrame(loop);
-      })();
     }
   })();
 </script>
-<script src="assets/site.js"></script>
 </body>
 </html>
