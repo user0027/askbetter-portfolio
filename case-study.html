@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>기획 업무 AI 워크플로 · ASKBETTER</title>
+<link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#ffffff;
+    --bg-tint:#f2f4fb;
+    --surface:#ffffff;
+    --ink:#131a2e;
+    --ink-soft:#565f7a;
+    --ink-faint:#8790a8;
+    --line:#e2e5f0;
+    --navy:#0f1830;
+    --navy-surface:#16213f;
+    --navy-ink:#eef1fb;
+    --navy-ink-soft:#a7b0cf;
+    --accent:#2b53d6;
+    --accent-ink:#2b53d6;
+    --accent-soft:#eaf0ff;
+    --accent-line:#c8d6ff;
+    --good:#1f7a52;
+    --coffee:#a9673a;
+    --coffee-soft:#f7ece2;
+    --coffee-line:#e3c6ae;
+    --shadow: 0 1px 2px rgba(19,26,46,0.04), 0 8px 24px rgba(19,26,46,0.06);
+  }
+  /* 발표 자료는 다크모드를 쓰지 않음 — 라이트 팔레트로 고정 */
+
+  *{box-sizing:border-box;}
+  html{background:var(--bg);}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height:1.6;
+    margin:0;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+  }
+  h1,h2,h3{
+    font-family:'Noto Sans KR', sans-serif;
+    font-weight:900;
+    letter-spacing:-0.01em;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+  p{margin:0;}
+  .mono{
+    font-family:'JetBrains Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .wrap{max-width:1040px; margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  .eyebrow{
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    color:var(--accent-ink);
+    text-transform:uppercase;
+  }
+  .eyebrow.on-dark{ color:var(--accent-ink); }
+
+  /* ---------- Cover ---------- */
+  .cover{
+    padding:104px 0 76px;
+    border-bottom:1px solid var(--line);
+  }
+  .cover .brand{
+    font-size:13px; font-weight:700; letter-spacing:0.14em;
+    color:var(--ink-faint); margin-bottom:28px;
+  }
+  .cover h1{
+    font-size:clamp(32px, 5vw, 50px);
+    line-height:1.28;
+    max-width:820px;
+  }
+  .cover .rule{
+    width:64px; height:4px; background:var(--accent); margin:28px 0 24px; border-radius:2px;
+  }
+  .cover .sub{
+    font-size:17px; color:var(--ink-soft); max-width:560px; font-weight:500;
+  }
+  .cover .meta{
+    margin-top:56px; display:flex; gap:24px; font-size:13px; color:var(--ink-faint);
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  /* ---------- Overview ---------- */
+  .overview{ padding:64px 0; border-bottom:1px solid var(--line); }
+  .overview h2{ font-size:26px; margin-bottom:10px; }
+  .overview .lede{ color:var(--ink-soft); font-size:15px; max-width:560px; margin-bottom:40px; }
+
+  .arc-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  .arc-cell{
+    background:var(--surface); padding:24px 20px;
+  }
+  .arc-cell .tag{
+    font-family:'JetBrains Mono', monospace; font-size:22px; font-weight:600; color:var(--accent-ink);
+  }
+  .arc-cell .txt{ margin-top:10px; font-size:14.5px; font-weight:700; line-height:1.5; }
+  @media (max-width:760px){
+    .arc-row{ grid-template-columns:1fr 1fr; }
+  }
+
+  .stat-strip{
+    margin-top:44px; display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  .stat{
+    background:var(--surface); padding:22px 20px;
+  }
+  .stat .n{ font-family:'JetBrains Mono', monospace; font-size:26px; font-weight:600; color:var(--ink); }
+  .stat .n .arrow{ color:var(--ink-faint); font-weight:400; margin:0 2px; }
+  .stat .n .to{ color:var(--accent-ink); }
+  .stat .l{ margin-top:6px; font-size:12.5px; color:var(--ink-faint); }
+  @media (max-width:760px){ .stat-strip{ grid-template-columns:1fr 1fr; } }
+
+  .caveat{
+    margin-top:16px; font-size:13px; color:var(--ink-faint); font-style:normal;
+  }
+
+  /* ---------- Intro two-col ---------- */
+  .intro{ padding:64px 0; border-bottom:1px solid var(--line); }
+  .intro h2{ font-size:24px; margin-bottom:12px; max-width:600px; }
+  .intro .lede{ color:var(--ink-soft); font-size:15px; max-width:560px; margin-bottom:40px; }
+  .intro-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  @media (max-width:760px){ .intro-grid{ grid-template-columns:1fr; gap:32px; } }
+  .field{ margin-bottom:28px; }
+  .field:last-child{ margin-bottom:0; }
+  .field .k{ font-size:12.5px; font-weight:700; color:var(--ink-faint); letter-spacing:0.04em; margin-bottom:8px; }
+  .field .v{ font-size:16px; font-weight:700; }
+  .context-list{ border-top:1px solid var(--line); }
+  .context-row{
+    display:grid; grid-template-columns:88px 1fr; gap:16px;
+    padding:16px 0; border-bottom:1px solid var(--line); align-items:baseline;
+  }
+  .context-row .k{ font-weight:900; font-size:16px; }
+  .context-row .v{ color:var(--ink-soft); font-size:14.5px; }
+
+  /* ---------- Chapter divider ---------- */
+  .chapter{
+    background:var(--navy); color:var(--navy-ink);
+    padding:80px 0;
+  }
+  .chapter .wrap{ display:grid; grid-template-columns:auto 1fr; gap:40px; align-items:start; }
+  .chapter .num{
+    font-family:'JetBrains Mono', monospace; font-size:15px; font-weight:600;
+    color:var(--accent-ink); padding-top:8px;
+  }
+  .chapter h2{
+    color:var(--navy-ink); font-size:clamp(26px,3.6vw,38px); line-height:1.34; max-width:700px;
+  }
+  .chapter .sub{
+    margin-top:16px; color:var(--navy-ink-soft); font-size:15px; max-width:560px; font-weight:500;
+  }
+  @media (max-width:640px){ .chapter .wrap{ grid-template-columns:1fr; gap:12px; } }
+
+  /* ---------- Section (content) ---------- */
+  .section{ padding:64px 0; border-bottom:1px solid var(--line); }
+  .section .kicker{ font-size:12.5px; font-weight:700; color:var(--ink-faint); letter-spacing:0.04em; margin-bottom:12px; }
+  .section h3{ font-size:23px; max-width:640px; margin-bottom:12px; }
+  .section .lede{ font-size:15px; color:var(--ink-soft); max-width:580px; margin-bottom:36px; }
+
+  .cols-2{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  .cols-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:760px){ .cols-2, .cols-3{ grid-template-columns:1fr; gap:28px; } }
+
+  .bullets{ list-style:none; padding:0; margin:0; }
+  .bullets li{
+    position:relative; padding-left:18px; margin-bottom:12px; font-size:14.5px; color:var(--ink-soft);
+  }
+  .bullets li::before{
+    content:''; position:absolute; left:0; top:9px; width:5px; height:5px; border-radius:50%;
+    background:var(--accent);
+  }
+  .bullets.strong li{ color:var(--ink); font-weight:500; }
+
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:24px;
+    box-shadow:var(--shadow);
+  }
+  .card .h{ font-weight:700; font-size:15px; margin-bottom:10px; }
+
+  /* process flow */
+  .flow{ display:flex; align-items:stretch; gap:0; margin:8px 0 8px; }
+  .flow-step{ flex:1; }
+  .flow-step .idx{ font-family:'JetBrains Mono',monospace; color:var(--ink-faint); font-size:13px; }
+  .flow-step .t{ font-weight:700; font-size:16px; margin:8px 0 4px; }
+  .flow-step .d{ font-size:13.5px; color:var(--ink-soft); }
+  .flow-arrow{ display:flex; align-items:center; justify-content:center; width:44px; color:var(--ink-faint); font-size:18px; padding-top:28px; }
+  @media (max-width:640px){
+    .flow{ flex-direction:column; gap:16px; }
+    .flow-arrow{ display:none; }
+  }
+
+  /* formula */
+  .formula{ display:flex; align-items:center; gap:14px; margin:28px 0; }
+  .formula .box{ flex:1; background:var(--bg-tint); border:1px solid var(--line); border-radius:10px; padding:18px; }
+  .formula .box .t{ font-weight:700; font-size:14.5px; margin-bottom:6px; }
+  .formula .box .d{ font-size:13px; color:var(--ink-soft); }
+  .formula .op{ font-family:'JetBrains Mono',monospace; font-size:20px; color:var(--accent-ink); font-weight:600; }
+  .formula .box.result{ background:var(--accent-soft); border-color:var(--accent-line); }
+  @media (max-width:760px){ .formula{ flex-direction:column; align-items:stretch; } .formula .op{ text-align:center; } }
+
+  /* terminal-style request */
+  .prompt{
+    background:var(--navy); border-radius:10px; padding:18px 20px; margin:24px 0;
+  }
+  .prompt .label{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--navy-ink-soft); margin-bottom:8px; letter-spacing:0.04em; }
+  .prompt .cmd{ font-family:'JetBrains Mono',monospace; font-size:15.5px; color:var(--navy-ink); }
+  .prompt .cmd::before{ content:'> '; color:var(--accent-ink); }
+
+  /* before/after criteria */
+  .criteria{ margin:20px 0; }
+  .crit-row{ display:flex; align-items:center; gap:14px; padding:14px 0; border-top:1px solid var(--line); }
+  .crit-row:last-child{ border-bottom:1px solid var(--line); }
+  .crit-row .lbl{ font-size:11.5px; font-weight:700; color:var(--ink-faint); width:56px; flex-shrink:0; }
+  .crit-row .val{ font-size:14.5px; }
+  .crit-row.before .val{ color:var(--ink-faint); text-decoration:line-through; text-decoration-color:var(--line); }
+  .crit-row.after .val{ color:var(--ink); font-weight:700; }
+  .crit-row.after .lbl{ color:var(--accent-ink); }
+
+  .callout{
+    background:var(--accent-soft); border:1px solid var(--accent-line); border-radius:10px;
+    padding:20px 24px; font-size:15px; font-weight:700; line-height:1.6; color:var(--ink);
+  }
+
+  /* application grid */
+  .app-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .app-cell{ background:var(--surface); padding:22px; }
+  .app-cell .idx{ font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-faint); }
+  .app-cell .t{ font-weight:700; font-size:15px; margin:8px 0 4px; }
+  .app-cell .d{ font-size:13px; color:var(--ink-soft); }
+  @media (max-width:760px){ .app-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:480px){ .app-grid{ grid-template-columns:1fr; } }
+
+  /* quadrant */
+  .quad{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .quad-cell{ background:var(--surface); padding:22px 24px; }
+  .quad-cell .t{ font-weight:900; font-size:16px; margin-bottom:6px; }
+  .quad-cell .d{ font-size:13.5px; color:var(--ink-soft); }
+  @media (max-width:640px){ .quad{ grid-template-columns:1fr; } }
+
+  /* AI vs human split */
+  .split{ display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .split > div{ padding:26px 28px; }
+  .split .ai{ background:var(--bg-tint); }
+  .split .human{ background:var(--surface); border-left:1px solid var(--line); }
+  .split .h{ font-size:12.5px; font-weight:700; letter-spacing:0.04em; color:var(--ink-faint); margin-bottom:14px; }
+  .split .h.accent{ color:var(--accent-ink); }
+  @media (max-width:640px){ .split{ grid-template-columns:1fr; } .split .human{ border-left:none; border-top:1px solid var(--line); } }
+
+  /* file tree */
+  .tree{
+    background:var(--navy); color:var(--navy-ink); border-radius:10px; padding:20px 22px;
+    font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.85; overflow-x:auto;
+  }
+  .tree .dim{ color:var(--navy-ink-soft); }
+  .tree .hi{ color:var(--accent-ink); }
+
+  /* steps 1-4 summary */
+  .steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:0; border-top:1px solid var(--line); }
+  .step{ padding:20px 20px 0 0; border-right:1px solid var(--line); }
+  .step:last-child{ border-right:none; }
+  .step .n{ font-family:'JetBrains Mono',monospace; color:var(--accent-ink); font-size:13px; }
+  .step .t{ font-weight:700; font-size:14.5px; margin-top:10px; }
+  @media (max-width:760px){ .steps{ grid-template-columns:1fr 1fr; row-gap:24px; } .step{ border-right:none; } }
+
+  /* closing */
+  .closing{ background:var(--navy); color:var(--navy-ink); padding:88px 0; }
+  .closing h2{ color:var(--navy-ink); font-size:clamp(26px,4vw,38px); line-height:1.4; max-width:760px; }
+  .closing .sub{ margin-top:20px; color:var(--navy-ink-soft); font-size:15px; max-width:520px; }
+
+  /* appendix */
+  .appendix{ padding:56px 0 96px; }
+  .appendix h2{ font-size:20px; color:var(--ink-faint); margin-bottom:8px; }
+  .appendix .lede{ font-size:13.5px; color:var(--ink-faint); margin-bottom:28px; }
+  details{
+    border-top:1px solid var(--line); padding:16px 0;
+  }
+  details:last-of-type{ border-bottom:1px solid var(--line); }
+  summary{
+    cursor:pointer; font-weight:700; font-size:14.5px; color:var(--ink-soft);
+    list-style:none; display:flex; justify-content:space-between; align-items:center;
+  }
+  summary::-webkit-details-marker{ display:none; }
+  summary::after{ content:'+'; font-family:'JetBrains Mono',monospace; color:var(--ink-faint); font-size:16px; }
+  details[open] summary::after{ content:'–'; }
+  details[open] summary{ color:var(--ink); }
+  .details-body{ padding-top:16px; font-size:13.5px; color:var(--ink-soft); }
+  .details-body .row{ display:flex; gap:16px; padding:8px 0; }
+  .details-body .row .k{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--ink-faint); width:120px; flex-shrink:0; }
+
+  /* real screenshots / demo */
+  .shot{
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); margin:24px 0; background:var(--surface);
+  }
+  .shot img{ display:block; width:100%; height:auto; }
+  .shot .cap{
+    padding:11px 16px; font-size:12.5px; color:var(--ink-faint);
+    border-top:1px solid var(--line); font-family:'JetBrains Mono',monospace;
+  }
+
+  footer.pagefoot{ padding:36px 0 64px; font-size:12.5px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:20; background:rgba(255,255,255,0.92);
+    backdrop-filter:saturate(180%) blur(10px); border-bottom:1px solid var(--line);
+  }
+  .nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; max-width:1040px; }
+  .nav .id{ display:flex; align-items:center; gap:9px; font-weight:900; font-size:15px; letter-spacing:-0.01em; text-decoration:none; color:var(--ink); }
+  .nav .id img{ display:block; height:20px; width:auto; }
+  .nav .links{ display:flex; align-items:center; gap:26px; font-size:13.5px; font-weight:700; color:var(--ink-soft); }
+  .nav .links a:hover{ color:var(--ink); }
+  .nav .links a.cta{ background:var(--ink); color:#fff; padding:8px 16px; border-radius:100px; font-weight:700; }
+  @media (max-width:640px){ .nav .links{ gap:14px; font-size:12.5px; } .nav .links a.cta{ padding:7px 12px; } }
+
+  /* ---------- Closing CTA row ---------- */
+  .cta-row{ margin-top:40px; display:flex; flex-wrap:wrap; gap:14px; }
+  .cta{
+    display:inline-flex; align-items:center; gap:9px; padding:14px 22px; border-radius:12px;
+    font-weight:700; font-size:14.5px; text-decoration:none; border:1px solid transparent;
+  }
+  .cta.coffee{ background:var(--coffee-soft); color:var(--coffee); border-color:var(--coffee-line); }
+  .cta.coffee svg{ width:16px; height:16px; }
+  .cta.coffee:hover{ background:#f1ded0; }
+  .cta.mail{ background:rgba(255,255,255,0.06); color:var(--navy-ink); border-color:rgba(255,255,255,0.16); }
+  .cta.mail:hover{ background:rgba(255,255,255,0.1); }
+  .cta.home{ background:var(--accent); color:#fff; }
+  .cta.home:hover{ background:#2444b8; }
+  .closing .note{ margin-top:16px; font-size:12px; color:var(--navy-ink-soft); opacity:0.75; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .fade-in{ animation: fadeIn 0.5s ease-out both; }
+    @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+  }
+</style>
+</head>
+<body>
+<article>
+
+  <nav class="nav">
+    <div class="wrap">
+      <a class="id" href="index.html"><img src="assets/brand/askbetter-logo.svg" alt="ASKBETTER"></a>
+      <div class="links">
+        <a href="index.html#story">소개</a>
+        <a class="cta" href="index.html#contact">문의 · 후원</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cover -->
+  <section class="cover">
+    <div class="wrap">
+      <div class="brand">더존비즈온 · 제품 기획 · 2024–2026</div>
+      <h1>AI에게 맡길 일,<br>기획자가 남길 일</h1>
+      <div class="rule"></div>
+      <p class="sub">업무에 AI를 직접 적용해본 기록입니다.</p>
+      <div class="meta">
+        <span>2026.09</span>
+        <span>제품 기획</span>
+        <span>01 · 02 · 03 · 04</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="overview">
+    <div class="wrap">
+      <div class="eyebrow" style="margin-bottom:14px;">오늘의 흐름</div>
+      <h2>기술 사용법이 아니라, 실제 업무에 어떻게 적용했는지를 다룹니다</h2>
+      <p class="lede">어떤 조건이 갖춰지면 AI에게 맡겨도 되는지가 핵심 질문입니다.</p>
+
+      <div class="arc-row">
+        <div class="arc-cell"><div class="tag">01</div><div class="txt">이미 쓰고 있었지만, 일하는 방식은 그대로였습니다</div></div>
+        <div class="arc-cell"><div class="tag">02</div><div class="txt">하던 업무 하나에 넣어보니, 기존 결과물과 원본이 출발점이었습니다</div></div>
+        <div class="arc-cell"><div class="tag">03</div><div class="txt">여러 업무에 적용해보며 AI를 쓸 자리가 보이기 시작했습니다</div></div>
+        <div class="arc-cell"><div class="tag">04</div><div class="txt">반복은 맡기고, 판단은 남기는 기준을 세웠습니다</div></div>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat"><div class="n">6<span style="font-size:15px;color:var(--ink-faint);">개</span></div><div class="l">실제로 적용해 본 업무</div></div>
+        <div class="stat"><div class="n">1<span style="font-size:14px;">시간</span><span class="arrow">→</span><span class="to">2.9<span style="font-size:14px;">분</span></span></div><div class="l">세무달력 1건 제작 시간</div></div>
+        <div class="stat"><div class="n">22<span style="font-size:15px;color:var(--ink-faint);">개</span></div><div class="l">자동으로 확인되는 검수 항목</div></div>
+        <div class="stat"><div class="n">31<span style="font-size:15px;color:var(--ink-faint);">건</span></div><div class="l">사용하며 기준을 고친 기록</div></div>
+      </div>
+      <p class="caveat">이 숫자는 어떤 일이 실제로 맡겨졌는지를 보여주는 지표이며, 성과를 증명하는 근거로는 보지 않습니다. 각 숫자의 근거는 해당 절에서 다시 다룹니다.</p>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="intro">
+    <div class="wrap">
+      <div class="eyebrow" style="margin-bottom:14px;">소개</div>
+      <h2>제품 기획 업무에는 결과물보다 맥락이 많았습니다</h2>
+      <p class="lede">화면을 기획하고 스펙을 쓰고 배포된 결과를 확인하는 일을 주로 합니다. 결과물 자체보다, 그 결과물에 이르는 맥락이 업무의 대부분을 차지합니다.</p>
+      <div class="intro-grid">
+        <div>
+          <div class="field">
+            <div class="k">하는 일</div>
+            <div class="v">화면 기획 · 스펙 작성 · 배포 검수</div>
+          </div>
+          <div class="field">
+            <div class="k">주로 보는 도구</div>
+            <div class="v">Figma · 위키 · 지라 · 제플린</div>
+          </div>
+        </div>
+        <div>
+          <div class="k" style="margin-bottom:4px;">기획자의 업무를 이루는 맥락</div>
+          <div class="context-list">
+            <div class="context-row"><div class="k">기준</div><div class="v">무엇이 맞는지</div></div>
+            <div class="context-row"><div class="k">자료</div><div class="v">어디를 봐야 하는지</div></div>
+            <div class="context-row"><div class="k">예외</div><div class="v">언제 다르게 판단하는지</div></div>
+            <div class="context-row" style="border-bottom:none;"><div class="k">확인</div><div class="v">어디까지 봐야 끝인지</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="shot">
+        <img src="assets/portal-hero.jpg" alt="WH-TFT 사내 도구 포털 실제 화면">
+        <div class="cap">실제 화면 · 여기서 다루는 다섯 가지 도구를 모아 둔 사내 포털(WH-TFT)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 기 divider -->
+  <section class="chapter">
+    <div class="wrap">
+      <div class="num">01</div>
+      <div>
+        <h2>AI는 꽤 자주 썼지만, 일하는 방식은 그대로였습니다.</h2>
+        <p class="sub">도움은 됐지만, 대부분 한 건씩 요청하고 결과를 가져오는 방식이었습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 기 content -->
+  <section class="section">
+    <div class="wrap">
+      <div class="kicker">01</div>
+      <h3>AI는 이미 쓰고 있었습니다</h3>
+      <p class="lede">문장을 다듬고 요약하고 초안을 잡는 데 썼고, 실제로 빨라졌습니다. 다만 쓰는 방식은 계속 같았습니다.</p>
+      <div class="cols-2">
+        <div>
+          <div class="prompt">
+            <div class="label">요청 예시</div>
+            <div class="cmd">간단하게 요약해서 알려줘</div>
+          </div>
+          <p style="font-size:13.5px;color:var(--ink-faint);">한 건씩 맡기는 것만으로는 그 이상 나아가지 않았습니다.</p>
+        </div>
+        <div>
+          <div class="k field-k" style="font-size:12.5px;font-weight:700;color:var(--ink-faint);margin-bottom:14px;">도움은 됐지만 흐름은 그대로였습니다</div>
+          <ul class="bullets strong">
+            <li>필요한 내용을 가져와서</li>
+            <li>AI에게 요청하고</li>
+            <li>결과를 다시 업무에 붙입니다</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 승 divider -->
+  <section class="chapter">
+    <div class="wrap">
+      <div class="num">02</div>
+      <div>
+        <h2>AI에 맞는 일을 새로 찾지 않고, 하던 업무 하나에 그대로 넣어봤습니다.</h2>
+        <p class="sub">세무달력은 이미 매달 하던 업무였고, 결과물과 원본 자료가 남아 있었습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 승 content -->
+  <section class="section">
+    <div class="wrap">
+      <div class="kicker">02 · 세무달력</div>
+      <h3>매달 같은 방식으로 만들던 업무에 넣어봤습니다</h3>
+      <p class="lede">그달 일정은 바뀌지만, 만드는 순서와 확인 방식은 거의 같았습니다.</p>
+
+      <div class="flow">
+        <div class="flow-step"><div class="idx">01</div><div class="t">원본 문서</div><div class="d">그달 일정을 확인합니다</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="idx">02</div><div class="t">Figma</div><div class="d">달력 화면으로 제작합니다</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="idx">03</div><div class="t">발송본</div><div class="d">링크와 항목을 확인합니다</div></div>
+      </div>
+
+      <p style="margin:28px 0 6px;font-size:14.5px;font-weight:700;">방식은 기존 결과물에서, 내용은 원본 문서에서 가져오게 했습니다</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:8px;">처음부터 규칙을 전부 설명하지 않고, 이미 있던 업무 자료를 그대로 활용했습니다.</p>
+      <div class="formula">
+        <div class="box"><div class="t">기존 세무달력</div><div class="d">만드는 방식을 이전 결과물에서 파악</div></div>
+        <div class="op">+</div>
+        <div class="box"><div class="t">외부 원본 문서</div><div class="d">이번 달 바뀐 일정을 여기서 조회</div></div>
+        <div class="op">=</div>
+        <div class="box result"><div class="t">이번 달 결과</div><div class="d">기존 방식에 새 내용을 채워 생성</div></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-faint);">신입에게 지난달 만든 것부터 보고 이번 달 자료는 여기서 확인하면 된다고 안내하는 것과 비슷했습니다.</p>
+
+      <p style="margin:32px 0 6px;font-size:14.5px;font-weight:700;">업무 방식과 참고 자료가 잡힌 뒤에는, 요청 자체가 짧아졌습니다</p>
+      <div class="prompt">
+        <div class="label">그날 하던 대로 넘긴 요청</div>
+        <div class="cmd">9월 세무달력 만들어 줘</div>
+      </div>
+
+      <div class="cols-2" style="margin-top:8px;align-items:start;">
+        <div>
+          <ul class="bullets strong">
+            <li>기존 결과물에서 방식을 파악합니다</li>
+            <li>이번 달 원본에서 내용을 조회합니다</li>
+            <li>정해 둔 기준으로 결과를 생성합니다</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="h">손으로 하던 시간 대비</div>
+          <div class="n mono" style="font-size:28px;font-weight:600;">1시간 <span style="color:var(--ink-faint);font-weight:400;">→</span> <span style="color:var(--accent-ink);">2.9분</span></div>
+          <div style="font-size:12.5px;color:var(--ink-faint);margin-top:6px;">세무달력 1건 제작 시간, 손 작업 대비</div>
+        </div>
+      </div>
+
+      <p style="margin:36px 0 6px;font-size:14.5px;font-weight:700;">다만 만들 수 있는 것과 맡겨도 되는 것은 달랐습니다</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:4px;">검수 기준이 허술하면, 틀린 결과도 완료된 것처럼 보일 수 있었습니다.</p>
+      <div class="criteria">
+        <div class="crit-row before"><div class="lbl">처음 기준</div><div class="val">링크가 열리면 통과 → 내용이 틀려도 통과됐다</div></div>
+        <div class="crit-row after"><div class="lbl">지금 기준</div><div class="val">원본 표와 항목을 직접 대조한 뒤 통과 여부를 정한다</div></div>
+      </div>
+
+      <div class="shot">
+        <img src="assets/tax-calendar-card.png" alt="세무달력(tip) 설치 카드 실제 화면">
+        <div class="cap">실제 화면 · 포털에 올라간 세무달력(tip) 설치 카드, v0.13.0(주소·토큰 값은 가림)</div>
+      </div>
+
+      <div class="callout">세무달력에서 배운 것은 AI가 잘하느냐보다 어떤 조건이면 맡겨도 되느냐였습니다. 기존 방식, 바뀌는 원본, 검수 기준이 있어야 실제 업무로 썼습니다.</div>
+    </div>
+  </section>
+
+  <!-- 전 divider -->
+  <section class="chapter">
+    <div class="wrap">
+      <div class="num">03</div>
+      <div>
+        <h2>그다음 질문은 AI로 무엇을 만들지보다, 하던 업무 어디에 붙일지였습니다.</h2>
+        <p class="sub">세무달력을 넘어, 실제 기획 업무 여러 개로 범위를 넓혀 봤습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 전 content -->
+  <section class="section">
+    <div class="wrap">
+      <div class="kicker">03 · 적용 범위</div>
+      <h3>지금은 이런 업무에 적용해 봤습니다</h3>
+      <p class="lede">전부 원래 하던 일이고, 각자 필요한 자리를 나눠 적용해 본 결과입니다.</p>
+
+      <div class="app-grid">
+        <div class="app-cell"><div class="idx">01</div><div class="t">화면 스펙 작성</div><div class="d">화면 항목을 추출해 스펙 규격에 맞춰 초안을 만듭니다. 정책과 예외 판단은 사람이 남깁니다.</div></div>
+        <div class="app-cell"><div class="idx">02</div><div class="t">기존 화면 찾기</div><div class="d">링크·원문·날짜로 후보를 먼저 좁힙니다. 같은 화면인지 최종 판단은 사람이 합니다.</div></div>
+        <div class="app-cell"><div class="idx">03</div><div class="t">시안·기획서 대조</div><div class="d">Zeplin 시안과 Figma 기획서 문구를 자동으로 맞추고, 구조·표기 차이로 생기는 오탐은 규칙으로 걸러냅니다. 반영 여부는 디자인팀이 정합니다.</div></div>
+        <div class="app-cell"><div class="idx">04</div><div class="t">정책·문서 정리</div><div class="d">지라·위키·Figma에 흩어진 조건을 정해 둔 기준에 맞춰 모읍니다. 무엇을 정책으로 볼지는 사람이 정합니다.</div></div>
+        <div class="app-cell"><div class="idx">05</div><div class="t">세무달력</div><div class="d">기존 방식에 새 원본을 연결해 매달 반복합니다.</div></div>
+      </div>
+
+      <div class="kicker" style="margin-top:48px;">03 · 시안·기획서 대조</div>
+      <h3>디자인 시안과 기획서를 한 줄씩 맞춰보던 검수에도 넣어봤습니다</h3>
+      <p class="lede">확인해야 할 문구는 화면 하나에 수백 건이었지만, 실제로 고쳐야 할 항목은 그중 일부였습니다.</p>
+
+      <div class="flow">
+        <div class="flow-step"><div class="idx">01</div><div class="t">Zeplin 시안</div><div class="d">확정된 디자인 화면을 기준으로 둡니다</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="idx">02</div><div class="t">Figma 기획서</div><div class="d">같은 화면의 기획 문서와 자동 대조합니다</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="idx">03</div><div class="t">검수 리포트</div><div class="d">반영·확인·표기통일로 나눠 담당별로 보여줍니다</div></div>
+      </div>
+
+      <p style="margin:28px 0 6px;font-size:14.5px;font-weight:700;">전부 다르다고 표시하면 아무도 보지 않아서, 오탐부터 줄였습니다</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:8px;">줄·노드 구조 차이, 표·목업 예시 데이터, 시안 전용 라벨 같은 8가지 규칙으로 걸러내고, 회차마다 왜 제외했는지 로그로 남겨 조용히 자르지 않았습니다.</p>
+      <div class="formula">
+        <div class="box"><div class="t">전체 문구 대조</div><div class="d">시안과 기획서 문구를 전부 비교</div></div>
+        <div class="op">−</div>
+        <div class="box"><div class="t">오탐 제외 규칙</div><div class="d">구조·표기·예시 데이터 차이 8가지</div></div>
+        <div class="op">=</div>
+        <div class="box result"><div class="t">실제 확인 항목</div><div class="d">판단이 필요한 것만 남김</div></div>
+      </div>
+
+      <div class="cols-2" style="margin-top:28px;align-items:start;">
+        <div>
+          <ul class="bullets strong">
+            <li>줄·노드 구조가 달라 갈라진 문구를 다시 붙입니다</li>
+            <li>표·목업 예시 데이터, 시안 전용 라벨은 제외합니다</li>
+            <li>남은 항목만 디자인 반영·기획 확인·표기 통일로 나눕니다</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="h">확인 항목 수 대비</div>
+          <div class="n mono" style="font-size:28px;font-weight:600;">200건+ <span style="color:var(--ink-faint);font-weight:400;">→</span> <span style="color:var(--accent-ink);">25건</span></div>
+          <div style="font-size:12.5px;color:var(--ink-faint);margin-top:6px;">같은 화면, 오탐 제외 전후 확인 항목 수</div>
+        </div>
+      </div>
+
+      <div class="shot">
+        <img src="assets/product-tools-qa-input.jpg" alt="Product-Tools 제플린-기획서 대조 입력 화면 실제 화면">
+        <div class="cap">실제 화면 · Product-Tools 제플린 ↔ 기획서 대조 입력 화면, v1.0.4</div>
+      </div>
+
+      <div class="callout">시안·기획서 대조에서도 배운 것은 같았습니다. 무엇이 다르냐보다 무엇을 오탐으로 뺄 것이냐가 먼저였고, 남은 항목만 담당을 정해 사람이 봤습니다.</div>
+    </div>
+  </section>
+
+  <!-- 결 divider -->
+  <section class="chapter">
+    <div class="wrap">
+      <div class="num">04</div>
+      <div>
+        <h2>여러 업무에 적용해보며 생긴 구분을, 맡길 일과 남길 일의 기준으로 정리했습니다.</h2>
+        <p class="sub">AI로 무엇을 할지보다, 지금 하는 일을 어떻게 나눌지가 더 중요했습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 결 content -->
+  <section class="section">
+    <div class="wrap">
+      <div class="kicker">04 · 맡길 일과 남길 일</div>
+      <h3>업무를 볼 때 네 군데로 나누어 보았습니다</h3>
+      <p class="lede">이 네 군데를 나누면, AI에게 맡길 수 있는 자리와 사람이 봐야 하는 자리가 함께 보였습니다.</p>
+
+      <div class="quad">
+        <div class="quad-cell"><div class="t">기존 방식</div><div class="d">이 일을 어떤 모양과 규칙으로 하는지</div></div>
+        <div class="quad-cell"><div class="t">바뀌는 자료</div><div class="d">매번 새로 들어오는 정보가 어디 있는지</div></div>
+        <div class="quad-cell"><div class="t">반복 실행</div><div class="d">정해진 순서로 반복되는 단계가 무엇인지</div></div>
+        <div class="quad-cell"><div class="t">사람 판단</div><div class="d">기준·예외·최종 결정이 필요한 지점은 어디인지</div></div>
+      </div>
+
+      <p style="margin:40px 0 16px;font-size:19px;font-weight:900;">반복은 맡기고, 판단은 남겼습니다</p>
+      <p class="lede" style="margin-bottom:24px;">AI는 기획자의 일을 대신하지 않고, 사람이 판단하기 전의 반복 작업을 줄이는 쪽에 가까웠습니다.</p>
+      <div class="split">
+        <div class="ai">
+          <div class="h accent">AI에게 맡긴 일</div>
+          <ul class="bullets">
+            <li>정해진 순서 실행</li>
+            <li>자료 조회</li>
+            <li>규칙에 따른 정리</li>
+            <li>비교 가능한 기본 검수</li>
+          </ul>
+        </div>
+        <div class="human">
+          <div class="h">사람이 남긴 일</div>
+          <ul class="bullets">
+            <li>무엇을 할지 결정</li>
+            <li>기준 결정</li>
+            <li>예외 판단</li>
+            <li>결과 판단 · 최종 확인</li>
+          </ul>
+        </div>
+      </div>
+
+      <p style="margin:48px 0 6px;font-size:14.5px;font-weight:700;">작게라도 수치로 남긴 변화</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:16px;">어떤 일이 실제로 맡겨졌는지를 확인하기 위한 지표로 남기며, 성과를 증명하는 근거로는 보지 않습니다.</p>
+      <div class="stat-strip">
+        <div class="stat"><div class="n">1<span style="font-size:14px;">시간</span><span class="arrow">→</span><span class="to">2.9<span style="font-size:14px;">분</span></span></div><div class="l">세무달력 제작 시간</div></div>
+        <div class="stat"><div class="n">22<span style="font-size:15px;color:var(--ink-faint);">개</span></div><div class="l">검수 항목 자동 확인</div></div>
+        <div class="stat"><div class="n">31<span style="font-size:15px;color:var(--ink-faint);">건</span></div><div class="l">사용하며 기준을 고친 기록</div></div>
+        <div class="stat"><div class="n">5<span style="font-size:15px;color:var(--ink-faint);">개</span></div><div class="l">스펙·검색·검수·정책·달력</div></div>
+      </div>
+
+      <p style="margin:48px 0 6px;font-size:14.5px;font-weight:700;">잘 되는 방식은 다음에도 쓰도록 남겼습니다</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:16px;">한 번 잡힌 기준과 자료 위치를 매번 다시 설명하지 않도록 폴더로 묶었습니다. 대화창에만 있으면 다음에 또 설명해야 하고, 팀원이 그대로 쓰기도 어렵습니다. 폴더로 남기면 다시 쓰고 팀에도 전달합니다.</p>
+      <div class="tree">tip/<br>
+      <span class="dim">├─</span> skills/month/<span class="hi">SKILL.md</span> <span class="dim"># 업무 순서 · 표기 방식</span><br>
+      <span class="dim">├─</span> skills/qa/<span class="hi">SKILL.md</span> <span class="dim"># 검수 절차</span><br>
+      <span class="dim">├─</span> commands/mg.md <span class="dim"># 자주 쓰는 요청</span><br>
+      <span class="dim">├─</span> references/ <span class="dim"># 스펙 · 원본 위치 · 구조, 문서 5개</span><br>
+      <span class="dim">└─</span> scripts/ <span class="dim"># 검수 · 배포</span></div>
+
+      <p style="margin:48px 0 6px;font-size:14.5px;font-weight:700;">다섯 가지 결과물은 한 포털에 모아 두었습니다</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-bottom:16px;">따로 실행 방법을 안내하지 않아도, 카드에서 설치하거나 바로 엽니다.</p>
+      <div class="shot">
+        <img src="assets/wh-tft-portal-install-tools.jpg" alt="WH-TFT 포털 설치 도구 목록 실제 화면">
+        <div class="cap">실제 화면 · 카드 넘기기 아래로 이어지는 설치 도구 목록, curl 한 줄로 설치</div>
+      </div>
+
+      <p style="margin:48px 0 16px;font-size:14.5px;font-weight:700;">새 일을 찾지 않고, 이미 하던 일을 넷으로 나누었습니다</p>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><div class="t">기존 결과물에서 방식 찾기</div></div>
+        <div class="step"><div class="n">02</div><div class="t">바뀌는 자료 연결하기</div></div>
+        <div class="step"><div class="n">03</div><div class="t">반복 실행 맡기기</div></div>
+        <div class="step"><div class="n">04</div><div class="t">판단 지점 남기기</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="closing">
+    <div class="wrap">
+      <div class="eyebrow on-dark" style="margin-bottom:16px;">마지막 질문</div>
+      <h2>지금 하는 일 중, AI에게 먼저 맡겨볼 수 있는 것은 무엇입니까?</h2>
+      <p class="sub">완성된 자동화를 찾지 않고, 지금 하는 업무 하나에서 시작합니다.</p>
+      <div class="cta-row">
+        <a class="cta coffee" href="#" aria-label="토스 프로필로 커피 후원하기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+          커피 한 잔 후원하기
+        </a>
+        <a class="cta mail" href="mailto:71d2sr@gmail.com">이메일로 문의하기</a>
+        <a class="cta home" href="index.html">ASKBETTER 홈으로 →</a>
+      </div>
+      <p class="note">후원 링크는 토스 프로필 연결 예정입니다.</p>
+    </div>
+  </section>
+
+  <!-- Appendix -->
+  <section class="appendix">
+    <div class="wrap">
+      <h2>부록</h2>
+      <p class="lede">구성 · 전달 방법 · 실행 환경. 필요할 때만 참고합니다.</p>
+
+      <details>
+        <summary>팀에는 명령 두 줄로 전달했습니다</summary>
+        <div class="details-body">
+          <div class="row"><div class="k">01 목록 등록</div><div>/plugin marketplace add 주소</div></div>
+          <div class="row"><div class="k">02 설치</div><div>/plugin install 이름</div></div>
+          <div class="row"><div class="k">03 새 창 열기</div><div>새 창에서 적용</div></div>
+          <p style="margin-top:12px;">CLI 명령이 낯선 팀원에게는 포털의 설치 카드에서 토큰이 담긴 curl 한 줄을 대신 건넸습니다. 직접 띄워 둔 개인 서버를 거쳐 같은 결과로 끝나는, 실제로 돌아가던 경로였습니다.</p>
+          <p style="margin-top:12px;">전달 전 사내 주소, 계정 식별자, 캡처 속 이름과 사진은 제외했습니다.</p>
+          <div class="shot" style="margin:16px 0 0;">
+            <img src="assets/wh-tft-portal-install-tools.jpg" alt="WH-TFT 포털 설치 카드의 curl 명령 실제 화면">
+            <div class="cap">실제 화면 · 설치 카드에 그대로 뜨는 curl 한 줄(주소·토큰 값은 가림)</div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>Plugin 안은 스킬 · 커맨드 · 훅으로 나뉩니다</summary>
+        <div class="details-body">
+          <div class="row"><div class="k">스킬</div><div>요청과 맞으면 Claude가 찾아 읽습니다. 예: "이 화면 스펙 작성해줘"</div></div>
+          <div class="row"><div class="k">커맨드</div><div>사람이 이름을 직접 입력해 실행합니다. 예: /guide-qa</div></div>
+          <div class="row"><div class="k">훅</div><div>정해진 상황마다 자동 실행됩니다. 예: 새 배포본 자동 갱신</div></div>
+          <p style="margin-top:12px;">셋 다 문서 한 장이고, 누가 부르는지만 다릅니다. 기획자도 열어서 고칠 수 있는 문서 형태입니다.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>결과적으로 일하는 방식은 이렇게 달라졌습니다</summary>
+        <div class="details-body">
+          <div class="row"><div class="k">요청 방식</div><div>매번 형식·자료를 다시 설명 → 한 번 정한 기준을 그대로 사용</div></div>
+          <div class="row"><div class="k">자료 확보</div><div>찾아서 복사해 넘김 → AI가 필요한 자료를 직접 찾음</div></div>
+          <div class="row"><div class="k">결과 확인</div><div>같은 항목을 매번 확인 → 기본 확인까지 마친 결과를 판단</div></div>
+          <p style="margin-top:12px;">개발을 하지 않아도, 평소 하던 말을 정리하는 것에서 시작할 수 있었습니다.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer class="pagefoot">
+    <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; max-width:1040px;">
+      <span>박유진 · 더존비즈온 제품 기획 · 2024–2026</span>
+      <span><a href="index.html" style="text-decoration:none; border-bottom:1px solid var(--line);">← ASKBETTER 홈</a></span>
+    </div>
+  </footer>
+
+</article>
+</body>
+</html>
