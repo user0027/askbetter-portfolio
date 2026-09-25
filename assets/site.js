@@ -2,6 +2,12 @@
 // HTML 에 적힌 문구는 스크립트가 못 돌 때의 대체값이고, 로드되면 아래 값으로 덮인다.
 window.SITE = {
   brand: 'ASKBETTER',
+  // 헤더 메뉴는 로고에 맞춰 영어로 쓴다. 본문 링크 문구는 story.label(한글)을 쓴다
+  nav: {
+    work: 'Work',
+    story: 'Interview',
+    contact: 'Contact',
+  },
   // 탭 제목은 로고에 맞춰 영어로 쓴다
   home: {
     title: 'Product Manager',
