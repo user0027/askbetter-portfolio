@@ -13,7 +13,7 @@ window.SITE = {
   hero: {
     variant: 'stack',
     sub: '문제를 발견하고 제품의 방향을 만들어가는 기록',
-    role: 'Product Manager · 데이터 기반 전략 × UX',
+    role: '안녕하세요, 기획자 박유진이라고 합니다.',
     q: '더 나은 제품은 어디서 시작될까?',          // qa 에서만 쓴다
     // stack 은 전부, note 는 meta 가 있는 것(실제 작업)만 쓴다
     questions: [
