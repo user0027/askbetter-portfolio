@@ -6,6 +6,7 @@
 <title>ASKBETTER · Product Manager</title>
 <link rel="icon" href="assets/brand/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
 <link rel="apple-touch-icon" href="assets/brand/favicon-180.png">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -100,92 +101,80 @@
 
   /* ---------- Hero ---------- */
   .hero{
-    padding:116px 0 88px;
+    display:flex; flex-direction:column;
+    min-height:88vh;
+    padding:148px 0 56px;
     background:var(--bg);
     border-bottom:1px solid var(--line);
   }
-  .hero .grid{ display:grid; grid-template-columns:3fr 2fr; gap:48px; align-items:start; }
-  .hero .eyebrow{ margin-bottom:20px; }
-  .hero h1{ font-size:clamp(44px, 5vw, 68px); line-height:1.15; max-width:600px; }
-  .hero h1 em{ font-style:normal; color:var(--accent-ink); }
-  .hero .subcopy{
-    margin-top:28px; font-size:19px; line-height:1.7; color:var(--ink-soft); max-width:620px;
+  .hero-wrap{ position:relative; flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+  .hero-main{ max-width:900px; transition:opacity 0.3s ease, transform 0.3s ease; }
+  .hero-q{
+    font-weight:700; font-size:clamp(52px, 8vw, 120px); line-height:1.02; letter-spacing:-0.03em;
+    color:var(--ink); transition:opacity 0.3s ease-out, transform 0.3s ease-out, filter 0.3s ease-out;
   }
-  .hero .keywords{
-    margin-top:28px; font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:0.02em;
-    color:var(--ink-faint);
+  .hero-q.q-out{ opacity:0; transform:translateY(-8px); filter:blur(2px); }
+  .hero-q .q-line{ display:block; }
+  .hero-q .q-word{ position:relative; transition:color 0.2s ease; }
+  @media (hover:hover) and (pointer:fine){ .hero-q .q-word:hover{ color:var(--accent-ink); } }
+  .hero-dot{
+    display:inline-block; width:10px; height:10px; margin-left:14px; border-radius:50%;
+    background:var(--accent); vertical-align:middle; transition:transform 0.3s ease;
   }
-  .hero .cta-row{ margin-top:44px; display:flex; flex-wrap:wrap; gap:14px; }
-  .hero .cta-row .cta{
-    padding:16px 28px; font-size:15px; font-weight:700; border-radius:8px;
-    border:1px solid var(--navy); transition:background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  .hero-dot.alt{ transform:translate(6px, 4px); }
+  .hero-note{
+    margin-top:22px; min-height:22px; font-size:15px; color:var(--ink-soft);
+    opacity:0; transform:translateY(4px); transition:opacity 0.22s ease, transform 0.22s ease;
   }
-  .hero .cta-row .cta.primary{ background:var(--navy); color:#fff; }
-  .hero .cta-row .cta.primary:hover{ background:#1c2748; transform:translateY(-2px); box-shadow:0 6px 16px rgba(19,26,46,0.18); }
-  .hero .cta-row .cta.outline{ background:transparent; color:var(--navy); }
-  .hero .cta-row .cta.outline:hover{ background:var(--bg-tint); transform:translateY(-2px); }
-  .hero .cta-row .cta:active{ transform:translateY(0); }
-  .hero .side{ padding-top:6px; text-align:right; }
-  .hero .side-type{
-    font-weight:900; letter-spacing:-0.02em; line-height:0.98;
-    font-size:clamp(34px, 4.6vw, 58px); color:var(--ink); opacity:0.08;
-    transition:opacity 0.3s ease, transform 0.3s ease;
-    will-change:transform;
+  .hero-note.is-visible{ opacity:1; transform:translateY(0); }
+  .hero-brand{ position:absolute; right:0; bottom:0; text-align:right; }
+  .hero-brand-mark{ font-family:'JetBrains Mono', monospace; font-weight:700; font-size:13px; letter-spacing:0.14em; color:var(--ink-faint); }
+  .hero-brand-tag{ margin-top:6px; font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--ink-faint); }
+  .hero-scroll{
+    display:inline-flex; align-items:center; gap:8px; align-self:flex-start; margin-top:auto;
+    font-size:13.5px; font-weight:700; color:var(--ink); text-decoration:none; transition:color 0.2s ease;
   }
-  .hero .side:hover .side-type{ opacity:0.14; }
-  .hero .slogan{
-    margin-top:24px; font-family:'JetBrains Mono', monospace; font-size:12.5px;
-    color:var(--ink-faint);
-  }
+  .hero-scroll .arrow{ transition:transform 0.2s ease; }
+  .hero-scroll:hover{ color:var(--accent-ink); }
+  .hero-scroll:hover .arrow{ transform:translateX(4px); }
   @media (max-width:860px){
-    .hero .grid{ grid-template-columns:1fr; gap:8px; }
-    .hero .side{ text-align:left; margin-top:36px; }
-    .hero .side-type{ font-size:clamp(28px, 9vw, 40px); opacity:0.1; }
-    .hero .slogan{ margin-top:16px; }
+    .hero{ min-height:auto; padding:112px 0 48px; }
+    .hero-wrap{ justify-content:flex-start; }
+    .hero-brand{ position:static; margin-top:40px; text-align:left; }
+    .hero-scroll{ margin-top:32px; }
   }
+
+  /* ---------- Selected Work ---------- */
+  .work{ padding:112px 0 64px; border-bottom:1px solid var(--line); }
+  .work-head{ margin-bottom:64px; }
+  .work-head h2{ font-size:clamp(24px,3.2vw,32px); line-height:1.4; margin-top:10px; max-width:640px; }
+  .work-item{
+    display:grid; grid-template-columns:56px 1fr; column-gap:24px; align-items:start;
+    padding:36px 0; border-top:1px solid var(--line);
+  }
+  .work-list .work-item:last-child{ border-bottom:1px solid var(--line); }
+  .work-num{ font-size:13px; color:var(--ink-faint); padding-top:8px; }
+  .work-q{ font-weight:700; font-size:clamp(21px,2.6vw,28px); line-height:1.4; color:var(--ink); margin:0; }
+  .work-meta{ margin-top:14px; font-size:13px; color:var(--ink-faint); display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .work-detail{ margin-top:10px; font-size:15px; line-height:1.7; color:var(--ink-soft); max-width:600px; }
+  .work-note{ margin-top:40px; }
+  .work-note p{ font-size:14.5px; color:var(--ink-faint); }
+  .case-link{ color:var(--accent-ink); font-weight:700; text-decoration:underline; text-decoration-color:var(--accent-line); text-underline-offset:3px; transition:text-decoration-color 0.2s ease; }
+  .case-link:hover{ text-decoration-color:var(--accent-ink); }
+  .work .aside{ margin-top:44px; padding-top:28px; border-top:1px dashed var(--line); }
+  .work .aside p{ font-size:14.5px; color:var(--ink-faint); margin-bottom:0; }
+  .work .tools{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-bottom:18px; }
+  .work .tool{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; }
+  .work .tool img{ width:16px; height:16px; }
   @media (max-width:640px){
-    .hero{ padding:96px 0 64px; }
-    .hero .cta-row{ flex-direction:column; }
-    .hero .cta-row .cta{ text-align:center; }
+    .work{ padding:72px 0 48px; }
+    .work-item{ grid-template-columns:1fr; row-gap:6px; }
+    .work-num{ padding-top:0; }
   }
-
-  /* ---------- Experience header ---------- */
-  .exp-head{ padding-top:96px; padding-bottom:36px; }
-  .exp-head h2{ font-size:clamp(24px,3.2vw,32px); line-height:1.4; margin-top:10px; }
-  @media (max-width:640px){ .exp-head{ padding-top:64px; } }
-
-  /* ---------- Story ---------- */
-  .story{ padding:0 0 64px; border-bottom:1px solid var(--line); }
-  .story .chapter, .story figure, .story .aside{ max-width:700px; }
-  .story p{ max-width:700px; font-size:18px; line-height:1.85; color:var(--ink-soft); margin-bottom:24px; }
-  .story p.lead{ font-size:19px; color:var(--ink); }
-  .story .co{ height:20px; width:auto; vertical-align:-5px; margin:0 2px 0 3px; border-radius:4px; }
-  .story figure{ margin:40px 0; }
-  .story figure img{ display:block; width:100%; border-radius:10px; border:1px solid var(--line); box-shadow:var(--shadow); }
-  .story figcaption{ margin-top:10px; font-size:12.5px; color:var(--ink-faint); font-family:'JetBrains Mono',monospace; }
-  .story .case-link{ color:var(--accent-ink); font-weight:700; text-decoration:underline; text-decoration-color:var(--accent-line); text-underline-offset:3px; transition:text-decoration-color 0.2s ease, padding-right 0.2s ease; }
-  .story .case-link:hover{ text-decoration-color:var(--accent-ink); }
-  .story .chapter{ margin-bottom:52px; }
-  .story .chapter-head .co{ transition:transform 0.2s ease; }
-  .story .chapter:hover .chapter-head .co{ transform:scale(1.06); }
 
   .reveal{ opacity:0; transform:translateY(18px); transition:opacity 0.6s ease, transform 0.6s ease; }
   .reveal.is-visible{ opacity:1; transform:translateY(0); }
   @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; } }
-  .story .chapter-head{ display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
-  .story .chapter-head .co{ height:22px; width:auto; max-width:120px; object-fit:contain; margin:0; vertical-align:0; }
-  .story .co-name{ font-weight:700; color:var(--ink); font-size:15px; }
-  .story .period{ font-size:12px; color:var(--ink-faint); }
-  .story .chapter .product{ font-size:14.5px; color:var(--ink-faint); margin-bottom:14px; }
-  .story .chapter ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; max-width:700px; }
-  .story .chapter li{ font-size:16.5px; line-height:1.7; color:var(--ink-soft); padding-left:16px; position:relative; }
-  .story .chapter li::before{ content:"–"; position:absolute; left:0; color:var(--ink-faint); }
-  .story .chapter li .case-link{ font-size:inherit; font-weight:700; }
-  .story .aside{ margin-top:44px; padding-top:28px; border-top:1px dashed var(--line); }
-  .story .aside p{ font-size:14.5px; color:var(--ink-faint); margin-bottom:0; }
-  .story .tools{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-bottom:18px; }
-  .story .tool{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace; }
-  .story .tool img{ width:16px; height:16px; }
 
   /* ---------- CTA / closing ---------- */
   .closing{ background:var(--navy); color:var(--navy-ink); padding:80px 0; }
@@ -219,7 +208,7 @@
     <div class="wrap">
       <a class="id" href="index.html"><img src="assets/brand/askbetter-logo.svg" alt="ASKBETTER"></a>
       <div class="links">
-        <a href="#story">소개</a>
+        <a href="#work">Work</a>
         <a href="case-study.html">케이스 스터디</a>
         <div class="sep"></div>
         <a class="cta" href="#contact">문의 · 후원</a>
@@ -228,82 +217,77 @@
   </nav>
 
   <!-- Hero -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="grid">
-        <div class="copy">
-          <div class="eyebrow">Product Manager</div>
-          <h1>좋은 제품은<br><em>더 나은 질문</em>에서 시작됩니다.</h1>
-          <p class="subcopy">데이터와 사용자 행동에서 문제를 정의하고, 복잡한 B2B SaaS를 명확한 제품 경험으로 설계합니다.</p>
-          <p class="keywords mono">Product Strategy · Data · UX · B2B SaaS</p>
-          <div class="cta-row">
-            <a class="cta primary" href="case-study.html">케이스 스터디 보기</a>
-            <a class="cta outline" href="#story">소개 보기</a>
-          </div>
-        </div>
-        <div class="side">
-          <div class="side-type">ASK<br>BETTER.</div>
-          <p class="slogan">Better questions make better products.</p>
-        </div>
+  <section class="hero" id="hero">
+    <div class="wrap hero-wrap">
+      <div class="hero-main">
+        <h1 class="hero-q" id="heroQ">
+          <span class="q-line">What are we</span>
+          <span class="q-line">really <span class="q-word" data-note="기능 요청보다 문제를 먼저 봅니다.">solving</span>?<span class="hero-dot" id="heroDot"></span></span>
+        </h1>
+        <p class="hero-note" id="heroNote"></p>
       </div>
+      <div class="hero-brand">
+        <div class="hero-brand-mark">ASKBETTER</div>
+        <p class="hero-brand-tag">Better questions make better products.</p>
+      </div>
+      <a class="hero-scroll" href="#work">
+        <span>Selected work</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
   </section>
 
-  <!-- Story -->
-  <section class="story" id="story">
+  <!-- Selected Work -->
+  <section class="work" id="work">
     <div class="wrap">
-      <div class="exp-head">
-        <div class="eyebrow mono">Selected Experience</div>
-        <h2>어떤 문제를 풀어왔는지</h2>
+      <div class="work-head reveal">
+        <div class="eyebrow mono">01 · Selected Work</div>
+        <h2>어떤 질문으로 일해왔는지</h2>
       </div>
 
-      <div class="chapter reveal">
-        <div class="chapter-head">
-          <img class="co" src="assets/logos/fromthered.png" alt="">
-          <span class="co-name">프롬더레드</span>
-          <span class="period mono">Product Manager · 2019 – 2024</span>
+      <div class="work-list">
+        <div class="work-item reveal">
+          <span class="work-num mono">01</span>
+          <div>
+            <h3 class="work-q">반복되는 기획 업무를<br>어디까지 자동화할 수 있을까?</h3>
+            <div class="work-meta mono">Claude TFT · 더존비즈온 · 2025 <a class="case-link" href="case-study.html">케이스 스터디 →</a></div>
+            <p class="work-detail">반복되는 Jira 티켓 작성·QA 검토를 자동화하는 워크플로 설계.</p>
+          </div>
         </div>
-        <p class="product">게임 제작 툴 & 커뮤니티 플랫폼</p>
-        <ul>
-          <li>학생·초보 개발자용 게임 제작 툴과 커뮤니티 기획</li>
-          <li>GA 데이터로 운영 방향을 검증하며 이탈률 개선, DAU 상승</li>
-          <li>초·중학교 대상 MOU 체결로 B2B 확장</li>
-        </ul>
-      </div>
 
-      <div class="chapter reveal">
-        <div class="chapter-head">
-          <img class="co" src="assets/logos/douzone.png" alt="">
-          <span class="co-name">더존비즈온</span>
-          <span class="period mono">Product Manager · 2024 – 2026</span>
+        <div class="work-item reveal">
+          <span class="work-num mono">02</span>
+          <div>
+            <h3 class="work-q">복잡한 금융 업무를<br>어떻게 더 명확하게 만들 수 있을까?</h3>
+            <div class="work-meta mono">DJBank · 더존비즈온 · 2025</div>
+            <p class="work-detail">ERP 급여 데이터와 은행 이체 업무를 연동해 급여이체 서비스를 상용화.</p>
+          </div>
         </div>
-        <p class="product">WEHAGO 기획·설계팀 · B2B SaaS · 세무 · 금융</p>
-        <ul>
-          <li>회계·세무·그룹웨어를 다루는 B2B SaaS로 도메인 전환</li>
-          <li>Claude TFT — 반복되는 Jira 티켓 작성·QA 검토를 자동화하는 워크플로 설계 <a class="case-link" href="case-study.html">케이스 스터디 →</a></li>
-          <li>DJBank 급여이체 서비스 상용화, ERP 급여 데이터와 은행 이체 업무 연동</li>
-          <li>AI 수임처 연말정산 웹을 VOC 기반으로 재설계, 사내 '최고의 기획자상' 수상</li>
-        </ul>
-      </div>
 
-      <figure class="reveal">
-        <img src="assets/portal-hero.jpg" alt="Claude TFT 업무 도구 포털 화면">
-        <figcaption>Claude TFT — 팀에서 쓰는 업무 도구 포털</figcaption>
-      </figure>
-
-      <div class="chapter reveal">
-        <div class="chapter-head">
-          <img class="co" src="assets/logos/estsecurity.png" alt="">
-          <span class="co-name">이스트시큐리티</span>
-          <span class="period mono">Product Manager · 2026.09 –</span>
+        <div class="work-item reveal">
+          <span class="work-num mono">03</span>
+          <div>
+            <h3 class="work-q">사용자가 겪는 불편함에서<br>무엇을 먼저 바꿔야 할까?</h3>
+            <div class="work-meta mono">AI 수임처 연말정산 웹 · 더존비즈온 · 2026</div>
+            <p class="work-detail">VOC 기반으로 재설계, 사내 '최고의 기획자상' 수상.</p>
+          </div>
         </div>
-        <p class="product">제품개발본부 제품기획팀</p>
-        <ul>
-          <li>정보보안이라는 새 도메인을 학습하는 중</li>
-        </ul>
+
+        <div class="work-item reveal">
+          <span class="work-num mono">04</span>
+          <div>
+            <h3 class="work-q">학생·초보 개발자가<br>계속 만들고 싶어지는 이유는 무엇일까?</h3>
+            <div class="work-meta mono">게임 제작 툴 &amp; 커뮤니티 · 프롬더레드 · 2019–2024</div>
+            <p class="work-detail">GA 데이터로 운영 방향을 검증하며 이탈률 개선, DAU 상승. 초·중학교 대상 MOU 체결로 B2B 확장.</p>
+          </div>
+        </div>
       </div>
 
-      <div class="aside">
+      <div class="work-note reveal">
+        <p>지금은 이스트시큐리티에서 정보보안이라는 새로운 도메인을 배우는 중입니다.</p>
+      </div>
+
+      <div class="aside reveal">
         <div class="tools">
           <span class="tool"><img src="assets/logos/figma.svg" alt="">Figma</span>
           <span class="tool"><img src="assets/logos/sketch.svg" alt="">Sketch</span>
@@ -363,19 +347,73 @@
     reveals.forEach(function(el){ el.classList.add('is-visible'); });
   }
 
-  var sideType = document.querySelector('.hero .side-type');
-  var heroSide = document.querySelector('.hero .side');
-  if (sideType && heroSide && window.matchMedia('(pointer:fine)').matches) {
-    heroSide.addEventListener('mousemove', function(e){
-      var r = heroSide.getBoundingClientRect();
-      var dx = (e.clientX - (r.left + r.width / 2)) / r.width;
-      var dy = (e.clientY - (r.top + r.height / 2)) / r.height;
-      sideType.style.transform = 'translate(' + (dx * -8) + 'px, ' + (dy * -8) + 'px)';
-    });
-    heroSide.addEventListener('mouseleave', function(){
-      sideType.style.transform = 'translate(0, 0)';
-    });
-  }
+  // Hero: cycling questions
+  (function(){
+    var heroQ = document.getElementById('heroQ');
+    var heroNote = document.getElementById('heroNote');
+    var heroMain = document.querySelector('.hero-main');
+    if (!heroQ) return;
+
+    var questions = [
+      { line1:'What are we', line2Pre:'really ', word:'solving', note:'기능 요청보다 문제를 먼저 봅니다.' },
+      { line1:'Who is this', line2Pre:'really ', word:'for', note:'사용자의 행동과 맥락에서 답을 찾습니다.' },
+      { line1:'What should', line2Pre:'actually ', word:'change', note:'해결책보다 변화해야 할 상태를 정의합니다.' },
+      { line1:'How do we', line2Pre:'know it ', word:'worked', note:'감보다 실제 변화를 확인합니다.' }
+    ];
+    var idx = 0, paused = false, dotAlt = false;
+
+    function render(q){
+      heroQ.innerHTML =
+        '<span class="q-line">' + q.line1 + '</span>' +
+        '<span class="q-line">' + q.line2Pre +
+        '<span class="q-word" data-note="' + q.note + '">' + q.word + '</span>?' +
+        '<span class="hero-dot" id="heroDot"></span></span>';
+      dotAlt = !dotAlt;
+      var dot = document.getElementById('heroDot');
+      if (dot) dot.classList.toggle('alt', dotAlt);
+      if (heroNote) { heroNote.textContent = ''; heroNote.classList.remove('is-visible'); }
+    }
+
+    function next(){
+      if (paused) return;
+      heroQ.classList.add('q-out');
+      setTimeout(function(){
+        idx = (idx + 1) % questions.length;
+        render(questions[idx]);
+        heroQ.classList.remove('q-out');
+      }, 300);
+    }
+    setInterval(next, 4000);
+
+    if (heroMain) {
+      heroMain.addEventListener('mouseenter', function(){ paused = true; });
+      heroMain.addEventListener('mouseleave', function(){ paused = false; });
+      heroMain.addEventListener('mouseover', function(e){
+        var w = e.target.closest('.q-word');
+        if (w && heroNote) {
+          heroNote.textContent = w.getAttribute('data-note') || '';
+          heroNote.classList.add('is-visible');
+        }
+      });
+      heroMain.addEventListener('mouseout', function(e){
+        var w = e.target.closest('.q-word');
+        if (w && heroNote) heroNote.classList.remove('is-visible');
+      });
+    }
+
+    var ticking = false;
+    function onScroll(){
+      if (!heroMain) return;
+      var y = window.scrollY || window.pageYOffset;
+      var p = Math.min(Math.max(y / 100, 0), 1);
+      heroMain.style.opacity = String(1 - p * 0.75);
+      heroMain.style.transform = 'translateY(' + (-(p * 12)) + 'px)';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive:true });
+  })();
 </script>
 </body>
 </html>
