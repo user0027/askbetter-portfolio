@@ -2,10 +2,14 @@
 // HTML 에 적힌 문구는 스크립트가 못 돌 때의 대체값이고, 로드되면 아래 값으로 덮인다.
 window.SITE = {
   brand: 'ASKBETTER',
+  // 탭 제목은 로고에 맞춰 영어로 쓴다
+  home: {
+    title: 'Product Manager',
+  },
   story: {
     label: '인터뷰',
     href: 'case-study.html',
-    title: '기획 업무 AI 워크플로',
+    title: 'AI Workflow Interview',
   },
 };
 
