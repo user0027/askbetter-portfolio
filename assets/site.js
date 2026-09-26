@@ -9,10 +9,11 @@ window.SITE = {
     about: 'About',
     contact: 'Contact',
   },
-  // 메인 히어로. 헤드라인 옆 여백에서 work 의 질문을 하나씩 정렬해 보여 준다
+  // 메인 히어로. 이름·직무·전문성을 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
   hero: {
-    role: '안녕하세요, 기획자 박유진이라고 합니다.',
-    interval: 7000,   // 질문 하나가 머무는 시간(ms)
+    name: '박유진',
+    role: 'Product Manager',
+    sub: 'Data-driven Strategy × UX',
   },
   // 대표 작업. 메인 Work 장과 히어로 질문이 이 목록을 같이 쓴다.
   // did 는 한 일, result 는 결과. plate 는 작업 화면이 없을 때 판에 크게 잘라 넣는 낱말
