@@ -91,14 +91,14 @@
           </tbody>
         </table>
       </div>
-      <div class="cols-2" style="align-items:start;">
+      <div class="cols-2">
         <div class="a">
           <p>같은 화면에서 텍스트 515개를 받으면 잡음을 걸러 482개가 남고, 차이 53건은 같은 차이끼리 묶어 카드 27장으로 보여 줘요. 전면 리디자인처럼 차이가 688건 나와도 카드는 72장이에요.</p>
         </div>
         <div class="card">
           <div class="h">한 화면 기준</div>
-          <div class="n mono" style="font-size:28px;font-weight:600;">53건 <span style="color:var(--ink-faint);font-weight:400;">→</span> <span style="color:var(--accent-ink);">27장</span></div>
-          <div style="font-size:12.5px;color:var(--ink-faint);margin-top:6px;">대조에서 나온 차이와 리포트에 올라간 카드 수</div>
+          <div class="n mono">53건 <span class="arrow">→</span> <span class="to">27장</span></div>
+          <div class="cap">대조에서 나온 차이와 리포트에 올라간 카드 수</div>
         </div>
       </div>
 
@@ -186,12 +186,12 @@
         <p>10월분을 만들 때 잰 174초예요. 원본 문서에서 그달 일정을 뽑고, 직전 달 프레임을 복제해 Figma에 그리고, 월 테마 이미지를 만들고, 원본과 대조하는 네 단계를 합친 시간이에요.</p>
       </div>
       <div class="stat-strip">
-        <div class="stat"><div class="n">32<span style="font-size:14px;">초</span></div><div class="l">원본 추출</div></div>
-        <div class="stat"><div class="n">83<span style="font-size:14px;">초</span></div><div class="l">Figma 빌드</div></div>
-        <div class="stat"><div class="n">30<span style="font-size:14px;">초</span></div><div class="l">테마 이미지</div></div>
-        <div class="stat"><div class="n">29<span style="font-size:14px;">초</span></div><div class="l">검증</div></div>
+        <div class="stat"><div class="n">32<span class="unit">초</span></div><div class="l">원본 추출</div></div>
+        <div class="stat"><div class="n">83<span class="unit">초</span></div><div class="l">Figma 빌드</div></div>
+        <div class="stat"><div class="n">30<span class="unit">초</span></div><div class="l">테마 이미지</div></div>
+        <div class="stat"><div class="n">29<span class="unit">초</span></div><div class="l">검증</div></div>
       </div>
-      <div class="a" style="margin-top:28px;">
+      <div class="a mt28">
         <p>스크립트를 만들기 전에는 AI가 Figma를 열두 번 나눠 고쳤고, 그렇게 13분이 걸렸어요. 그중 6분이 Figma를 오가는 시간이었어요. <strong>빌드 스크립트 하나로 그 왕복을 한 번으로 줄였어요.</strong> 복제 원본을 직전 달로 정한 것도 실측에서 나왔어요. 기준으로 쓰던 7월 프레임에는 이후 달에 붙는 홍보 배너가 없었거든요.</p>
       </div>
 
@@ -256,7 +256,7 @@
       <span class="dim">├─</span> hooks/hooks.json <span class="dim"># 세션 시작 시 자동 갱신</span><br>
       <span class="dim">├─</span> references/ <span class="dim"># 작성 스펙 · 원본 문서 · 영상 표기 · Figma 구조 · 월 테마, 월별 확정 데이터</span><br>
       <span class="dim">└─</span> scripts/ <span class="dim"># 원본 추출 · Figma 빌드 · 테마 이미지 · 검수 · 배포</span></div>
-      <div class="tbl-wrap" style="margin-top:28px;">
+      <div class="tbl-wrap mt28">
         <table>
           <thead><tr><th>종류</th><th>누가 부르나</th><th>이 폴더의 예</th></tr></thead>
           <tbody>
@@ -271,7 +271,7 @@
       <div class="a">
         <p>경로가 두 가지예요. 저장소 권한이 있으면 명령 두 줄로 설치 목록을 등록하고 설치해요. 권한이 없는 팀원은 포털 카드에 적힌 한 줄을 복사해 실행하면 같은 결과가 나와요.</p>
       </div>
-      <div class="cols-2" style="align-items:start;">
+      <div class="cols-2">
         <div class="prompt">
           <div class="label">저장소 권한이 있을 때</div>
           <div class="cmd">claude plugin marketplace add &lt;저장소&gt;</div>
@@ -343,7 +343,7 @@
           </tbody>
         </table>
       </div>
-      <div class="a" style="margin-top:28px;">
+      <div class="a mt28">
         <p>정상일 때 아이콘을 멈춰 둔 이유도 같아요. 늘 움직이는 아이콘은 정작 깜빡여야 할 때 신호로 읽히지 않아요.</p>
       </div>
 
@@ -360,7 +360,7 @@
         <div class="flow-arrow">→</div>
         <div class="flow-step"><div class="idx">04</div><div class="t">저장소</div><div class="d">원격에 안 올린 지난 커밋</div></div>
       </div>
-      <div class="a" style="margin-top:28px;">
+      <div class="a mt28">
         <p>아침 QA는 매일 09:20 에 팀원이 쓰는 기능 17가지를 실제로 한 번씩 돌려 봐요. 주소가 열려도 기능이 멈춘 채 며칠 정상으로 보인 적이 있어서, 출근해서 볼 때는 이미 기능까지 확인된 결과가 떠 있게 했어요.</p>
       </div>
 
@@ -382,17 +382,17 @@
         <p>네, 23일에 걸쳐 조금씩 고쳤어요. <strong>안 보게 된 화면은 지웠어요.</strong> 규격 점검 탭은 한동안 열지 않는 걸 알아채고 통째로 걷어 냈고, 검수 도구 네 개를 나란히 보여 주던 표도 이미 아는 값이라 뺐어요. 탭 순서는 끌어서 바꾸면 기억되게 해 뒀어요.</p>
       </div>
       <div class="stat-strip">
-        <div class="stat"><div class="n">191<span style="font-size:14px;">개</span></div><div class="l">커밋</div></div>
-        <div class="stat"><div class="n">23<span style="font-size:14px;">일</span></div><div class="l">손본 날</div></div>
-        <div class="stat"><div class="n">30<span style="font-size:14px;">초</span></div><div class="l">화면 갱신 주기</div></div>
-        <div class="stat"><div class="n">17<span style="font-size:14px;">가지</span></div><div class="l">아침 QA 기능</div></div>
+        <div class="stat"><div class="n">191<span class="unit">개</span></div><div class="l">커밋</div></div>
+        <div class="stat"><div class="n">23<span class="unit">일</span></div><div class="l">손본 날</div></div>
+        <div class="stat"><div class="n">30<span class="unit">초</span></div><div class="l">화면 갱신 주기</div></div>
+        <div class="stat"><div class="n">17<span class="unit">가지</span></div><div class="l">아침 QA 기능</div></div>
       </div>
     </div>
   </section>
 
   <footer class="pagefoot">
-    <div class="wrap narrow" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-      <span><a href="case-study.html" data-site-href="story.href" style="text-decoration:none; border-bottom:1px solid var(--line);">← 케이스 스터디로</a></span>
+    <div class="wrap narrow">
+      <span><a href="case-study.html" data-site-href="story.href">← 케이스 스터디로</a></span>
     </div>
   </footer>
 
