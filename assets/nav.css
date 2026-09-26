@@ -1,8 +1,10 @@
 /* 하위 페이지 공용 헤더. 값은 index.html 헤더와 같게 맞춘다 */
+/* 지면 폭과 좌우 여백. 본문도 이 값으로 로고 왼쪽 선에 맞춘다 */
+:root{ --page-max:1280px; --page-gut:clamp(20px, 4vw, 48px); }
 .nav{ position:sticky; top:0; z-index:30; background:rgba(255,255,255,.86); backdrop-filter:saturate(180%) blur(10px);
   border-bottom:1px solid transparent; transition:border-color .4s ease; }
 .nav.is-scrolled{ border-bottom-color:rgba(19,26,46,.06); }
-.nav .page{ max-width:1280px; margin:0 auto; padding-inline:clamp(20px, 4vw, 48px);
+.nav .page{ max-width:var(--page-max); margin:0 auto; padding-inline:var(--page-gut);
   display:flex; align-items:center; justify-content:space-between; height:68px; }
 .nav .id img{ display:block; width:148px; height:auto; }
 .nav .links{ display:flex; gap:28px; font-size:13px; font-weight:500; color:#4e5770; }
