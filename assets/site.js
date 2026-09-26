@@ -16,6 +16,7 @@ window.SITE = {
   hero: {
     name: '박유진',
     role: 'Product Manager',
+    sub: 'Data-driven Strategy × UX',
   },
   // 대표 작업. 메인 Work 장과 히어로 질문이 이 목록을 같이 쓴다.
   // did 는 한 일, result 는 결과. plate 는 작업 화면이 없을 때 판에 크게 잘라 넣는 낱말

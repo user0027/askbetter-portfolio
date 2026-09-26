@@ -73,17 +73,28 @@
 
   .hero-text{ position:relative; z-index:1; max-width:min(620px, 56%); }
 
+  /* Q. 는 헤드라인보다 한 단 낮은 위계로, 질문에서 카피로 넘어가는 흐름을 만든다 */
+  .hero-q{ margin-bottom:clamp(16px, 2.6vh, 24px);
+    opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s var(--ease); }
+  .opening.is-in .hero-q{ opacity:1; transform:none; }
+  .hero-q .tag{ display:block; margin-bottom:8px; font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--accent); }
+  .hero-q p{ font-size:clamp(17px, 1.9vw, 22px); line-height:1.4; letter-spacing:-0.015em; color:var(--ink-soft); }
+
+  .hero-a .tag{ display:block; margin-bottom:8px; font-family:var(--mono); font-size:13px; letter-spacing:.12em; color:var(--accent);
+    opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s var(--ease); transition-delay:.14s; }
+  .opening.is-in .hero-a .tag{ opacity:1; transform:none; }
+
   .headline{ padding-bottom:clamp(28px, 5vh, 44px);
     font-size:clamp(32px, 4.6vw, 72px); line-height:1.18; letter-spacing:-0.045em; font-weight:700; }
   .headline em{ font-style:normal; color:var(--accent); }
-  .hl{ display:block; overflow:hidden; padding-bottom:.08em; }
-  .hl > span{ display:inline-block; transform:translateY(105%); transition:transform .9s var(--ease); }
-  .hl + .hl > span{ transition-delay:.09s; }
-  .opening.is-in .hl > span{ transform:none; }
+  .hl{ display:block; padding-bottom:.08em; }
+  .hl > span{ display:inline-block; opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s var(--ease); transition-delay:.14s; }
+  .hl + .hl > span{ transition-delay:.2s; }
+  .opening.is-in .hl > span{ opacity:1; transform:none; }
 
   /* 이름·직무. 메인 카피 바로 아래, 한 단 낮은 위계 */
   .who{ display:flex; flex-wrap:wrap; align-items:baseline; column-gap:12px; row-gap:4px;
-    padding-bottom:clamp(40px, 9vh, 96px); opacity:0; transform:translateY(8px); transition:opacity .8s ease, transform .8s var(--ease); transition-delay:.4s; }
+    padding-bottom:clamp(40px, 9vh, 96px); opacity:0; transform:translateY(8px); transition:opacity .5s ease, transform .5s var(--ease); transition-delay:.3s; }
   .opening.is-in .who{ opacity:1; transform:none; }
   .who b{ font-weight:500; color:var(--ink); font-size:clamp(16px, 1.6vw, 18px); }
   .who span{ font-size:clamp(13px, 1.3vw, 15px); color:var(--ink-soft); }
@@ -216,6 +227,8 @@
   .contact .ways{ display:flex; flex-wrap:wrap; gap:14px 40px; margin-top:clamp(40px, 6vh, 64px); font-size:clamp(17px, 1.6vw, 21px); }
   .contact .ways a{ text-decoration:none; padding-bottom:4px; border-bottom:1px solid var(--line); transition:border-color .3s ease; }
   .contact .ways a:hover{ border-bottom-color:var(--ink); }
+  .contact .support{ display:inline-block; margin-top:20px; font-size:13px; color:var(--ink-faint); text-decoration:none; }
+  .contact .support:hover{ color:var(--ink-soft); }
 
   footer{ padding-block:22px 36px; border-top:1px solid var(--line); }
   footer .page{ display:flex; justify-content:space-between; gap:12px 24px; flex-wrap:wrap; font-size:12px; color:var(--ink-faint); }
@@ -226,8 +239,9 @@
     html{ scroll-behavior:auto; }
     *{ animation:none !important; transition:none !important; }
     .rules i, .hl > span{ transform:none; }
+    .hl > span{ opacity:1; }
     .rv{ opacity:1; transform:none; } .unveil{ clip-path:none; }
-    .hero-photo, .who{ opacity:1; transform:none; }
+    .hero-photo, .who, .hero-q, .hero-a .tag{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -251,13 +265,21 @@
     <div class="rules" aria-hidden="true"><div class="page"><i></i><i></i><i></i><i></i></div></div>
     <div class="page">
       <div class="hero-text">
-        <h1 class="headline">
-          <span class="hl"><span>좋은 <em>질문</em>이,</span></span>
-          <span class="hl"><span>더 나은 제품을 만듭니다.</span></span>
-        </h1>
+        <div class="hero-q">
+          <span class="tag">Q.</span>
+          <p>더 나은 제품은 어디서 시작될까?</p>
+        </div>
+        <div class="hero-a">
+          <span class="tag">A.</span>
+          <h1 class="headline">
+            <span class="hl"><span>좋은 <em>질문</em>이,</span></span>
+            <span class="hl"><span>더 나은 제품을 만듭니다.</span></span>
+          </h1>
+        </div>
         <p class="who">
           <b data-site="hero.name">박유진</b>
           <span data-site="hero.role">Product Manager</span>
+          <span class="mono" data-site="hero.sub">Data-driven Strategy × UX</span>
         </p>
       </div>
     </div>
@@ -266,8 +288,8 @@
   <!-- Work -->
   <section id="work">
     <div class="page grid work-intro rv">
-      <span class="label">Selected Work · 2019–2026</span>
-      <p>무엇을 만들었는지보다, 어떤 질문에서 시작했는지부터 적었습니다.</p>
+      <span class="label">Selected Work</span>
+      <p>어떤 질문으로 일해왔는지.</p>
     </div>
 
     <!-- 01 -->
@@ -412,8 +434,8 @@
       <div class="ways">
         <a href="mailto:71d2sr@gmail.com">71d2sr@gmail.com</a>
         <a href="https://linkedin.com/in/yujin1113" target="_blank" rel="noopener">LinkedIn ↗</a>
-        <a href="#" data-site-href="support.href" data-site="support.label" aria-label="토스 프로필로 커피 후원하기">커피 한 잔 후원하기</a>
       </div>
+      <a class="support" href="#" data-site-href="support.href" data-site="support.label" aria-label="토스 프로필로 커피 후원하기">커피 한 잔 후원하기</a>
     </div>
   </section>
 
