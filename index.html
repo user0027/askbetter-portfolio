@@ -151,16 +151,9 @@
   .ch-1 .shot img{ object-position:left top; }
   .ch-1 .sub{ width:48%; margin-top:clamp(-120px, -8vw, -48px); margin-left:6%; position:relative; box-shadow:0 30px 60px -30px rgba(19,26,46,.35); aspect-ratio:1456 / 828; }
 
-  /* 02 · 질문을 넓게 깔고 아래에 결과를 둔다 */
-  .ch-2 .head{ align-items:end; }
-  .ch-2 .head .q-col{ grid-column:1 / 8; }
-  .ch-2 .head .meta-col{ grid-column:9 / -1; }
-  .ch-2 .foot{ margin-top:clamp(40px, 6vh, 72px); }
-  .ch-2 .foot .ch-notes{ grid-column:1 / 7; margin-top:0; }
-
-  /* 03 · 텍스트가 위, 메타가 오른쪽으로 비껴 앉는다 */
-  .ch-3 .q-col{ grid-column:1 / 8; }
-  .ch-3 .meta-col{ grid-column:9 / -1; padding-top:48px; }
+  /* 02·03 · 질문은 왼쪽, 메타·결과는 오른쪽에 묶는다 */
+  .ch-2 .q-col, .ch-3 .q-col{ grid-column:1 / 8; }
+  .ch-2 .meta-col, .ch-3 .meta-col{ grid-column:9 / -1; padding-top:48px; }
 
   /* 04 · 텍스트만 남긴다 */
   .ch-4 .txt{ grid-column:1 / 8; }
@@ -171,8 +164,7 @@
     .ch-1 .txt{ position:static; margin-bottom:40px; }
     .ch-1 .media{ margin-right:calc(-1 * var(--gut)); }
     .ch-1 .sub{ width:64%; margin-left:0; margin-top:-24px; }
-    .ch-2 .head .meta-col, .ch-3 .meta-col{ padding-top:24px; }
-    .ch-2 .foot .ch-notes{ margin-top:0; }
+    .ch-2 .meta-col, .ch-3 .meta-col{ padding-top:24px; }
   }
 
   /* ---------- About ---------- */
@@ -292,17 +284,17 @@
 
     <!-- 02 -->
     <article class="ch ch-2">
-      <div class="page grid head rv">
+      <div class="page grid rv">
         <div class="q-col">
           <span class="ch-no">02</span>
           <h2 class="ch-q" data-site="work.1.q">복잡한 금융 업무를 어떻게 더 명확하게 만들 수 있을까?</h2>
         </div>
-        <p class="ch-meta meta-col"><b data-site="work.1.name">DJBank</b><span data-site="work.1.org">더존비즈온</span> · <span data-site="work.1.year">2025</span></p>
-      </div>
-      <div class="page grid foot rv">
-        <div class="ch-notes">
-          <div><span class="label">Work</span><span data-site="work.1.did">ERP 급여 데이터와 은행 이체 업무를 연동.</span></div>
-          <div><span class="label">Result</span><span data-site="work.1.result">급여이체 서비스 상용화.</span></div>
+        <div class="meta-col">
+          <p class="ch-meta"><b data-site="work.1.name">DJBank</b><span data-site="work.1.org">더존비즈온</span> · <span data-site="work.1.year">2025</span></p>
+          <div class="ch-notes">
+            <div><span class="label">Work</span><span data-site="work.1.did">ERP 급여 데이터와 은행 이체 업무를 연동.</span></div>
+            <div><span class="label">Result</span><span data-site="work.1.result">급여이체 서비스 상용화.</span></div>
+          </div>
         </div>
       </div>
     </article>
