@@ -144,14 +144,6 @@
   .ch:hover .shot img{ transform:translateY(-6px); }
   .cap{ margin-top:12px; font-size:12px; color:var(--ink-faint); }
 
-  /* 작업 화면이 없는 장의 판. 질문 속 낱말 하나를 크게 잘라 넣는다 */
-  .plate{ position:relative; overflow:hidden; background:var(--tint); }
-  .plate .word{ position:absolute; left:-.04em; bottom:-.24em; font-weight:200; letter-spacing:-0.07em; line-height:1; white-space:nowrap;
-    color:rgba(19,26,46,.13); transition:transform 2.4s var(--ease); transform:translateY(8%); }
-  .plate.is-in .word{ transform:none; }
-  .plate .label{ position:absolute; top:clamp(16px, 2.4vw, 32px); left:clamp(16px, 2.4vw, 32px); }
-  .plate .tick{ position:absolute; top:clamp(16px, 2.4vw, 32px); right:clamp(16px, 2.4vw, 32px); width:28px; height:1px; background:var(--accent); }
-
   /* 01 · 텍스트 왼쪽, 화면이 오른쪽 가장자리까지 흐른다 */
   .ch-1 .txt{ grid-column:1 / 6; align-self:start; position:sticky; top:120px; }
   .ch-1 .media{ grid-column:6 / -1; margin-right:calc(-1 * (max(0px, (100vw - var(--max)) / 2) + var(--gut))); }
@@ -159,30 +151,19 @@
   .ch-1 .shot img{ object-position:left top; }
   .ch-1 .sub{ width:48%; margin-top:clamp(-120px, -8vw, -48px); margin-left:6%; position:relative; box-shadow:0 30px 60px -30px rgba(19,26,46,.35); aspect-ratio:1456 / 828; }
 
-  /* 02 · 질문을 넓게 깔고 판을 화면 폭 전체로 */
+  /* 02 · 질문을 넓게 깔고 아래에 결과를 둔다 */
   .ch-2 .head{ align-items:end; }
   .ch-2 .head .q-col{ grid-column:1 / 9; }
   .ch-2 .head .meta-col{ grid-column:10 / -1; }
-  .ch-2 .bleed{ width:100vw; margin-left:calc(50% - 50vw); margin-top:clamp(48px, 7vh, 80px); }
-  .ch-2 .plate{ height:clamp(220px, 38vh, 380px); background:linear-gradient(180deg, var(--tint) 0%, var(--tint-2) 100%); }
-  .ch-2 .plate .word{ font-size:clamp(72px, 13vw, 180px); left:var(--gut); }
-  .ch-2 .foot{ margin-top:32px; }
+  .ch-2 .foot{ margin-top:clamp(40px, 6vh, 72px); }
   .ch-2 .foot .ch-notes{ grid-column:4 / 10; margin-top:0; }
 
-  /* 03 · 텍스트가 위, 판이 아래에서 오른쪽으로 비껴 앉는다 */
+  /* 03 · 텍스트가 위, 메타가 오른쪽으로 비껴 앉는다 */
   .ch-3 .q-col{ grid-column:1 / 8; }
   .ch-3 .meta-col{ grid-column:9 / -1; padding-top:48px; }
-  .ch-3 .plate-col{ grid-column:3 / -1; margin-top:clamp(48px, 7vh, 88px); }
-  .ch-3 .plate{ aspect-ratio:16 / 8; background:var(--ink); }
-  .ch-3 .plate .word{ font-size:clamp(56px, 9vw, 140px); color:rgba(255,255,255,.1); }
-  .ch-3 .plate .label{ color:rgba(255,255,255,.45); }
-  .ch-3 .plate .tick{ background:#7d97ee; }
 
-  /* 04 · 작은 판과 텍스트가 맞선다. 마무리 장이라 가장 조용하게 */
-  .ch-4 .plate-col{ grid-column:1 / 5; }
-  .ch-4 .plate{ aspect-ratio:4 / 5; background:var(--bg); border:1px solid var(--line); }
-  .ch-4 .plate .word{ font-size:clamp(48px, 7vw, 100px); color:rgba(43,83,214,.14); }
-  .ch-4 .txt{ grid-column:6 / 12; align-self:center; }
+  /* 04 · 마무리 장이라 가장 조용하게, 텍스트만 남긴다 */
+  .ch-4 .txt{ grid-column:1 / 8; }
   .ch-4 .ch-q{ font-size:clamp(24px, 2.6vw, 36px); }
 
   @media (max-width:860px){
@@ -193,7 +174,6 @@
     .ch-1 .sub{ width:64%; margin-left:0; margin-top:-24px; }
     .ch-2 .head .meta-col, .ch-3 .meta-col{ padding-top:24px; }
     .ch-2 .foot .ch-notes{ margin-top:0; }
-    .ch-4 .plate-col{ max-width:320px; margin-bottom:32px; }
   }
 
   /* ---------- About ---------- */
@@ -320,12 +300,6 @@
         </div>
         <p class="ch-meta meta-col"><b data-site="work.1.name">DJBank</b><span data-site="work.1.org">더존비즈온</span> · <span data-site="work.1.year">2025</span></p>
       </div>
-      <div class="bleed">
-        <div class="plate unveil" aria-hidden="true">
-          <span class="label" data-site="work.1.name">DJBank</span><span class="tick"></span>
-          <span class="word" data-site="work.1.plate">명확하게</span>
-        </div>
-      </div>
       <div class="page grid foot rv">
         <div class="ch-notes">
           <div><span class="label">Work</span><span data-site="work.1.did">ERP 급여 데이터와 은행 이체 업무를 연동.</span></div>
@@ -348,24 +322,12 @@
             <div><span class="label">Result</span><span data-site="work.2.result">사내 '최고의 기획자상' 수상.</span></div>
           </div>
         </div>
-        <div class="plate-col">
-          <div class="plate unveil" aria-hidden="true">
-            <span class="label" data-site="work.2.name">AI 수임처 연말정산 웹</span><span class="tick"></span>
-            <span class="word" data-site="work.2.plate">불편함</span>
-          </div>
-        </div>
       </div>
     </article>
 
     <!-- 04 -->
     <article class="ch ch-4">
       <div class="page grid">
-        <div class="plate-col">
-          <div class="plate unveil" aria-hidden="true">
-            <span class="label" data-site="work.3.org">프롬더레드</span><span class="tick"></span>
-            <span class="word" data-site="work.3.plate">계속</span>
-          </div>
-        </div>
         <div class="txt rv">
           <span class="ch-no">04</span>
           <h2 class="ch-q" data-site="work.3.q">학생·초보 개발자가 계속 만들고 싶어지는 이유는 무엇일까?</h2>
@@ -448,7 +410,7 @@
 <script>
   (function(){
     // 화면에 들어온 요소만 한 번 드러낸다
-    var targets = document.querySelectorAll('.rv, .unveil, .plate');
+    var targets = document.querySelectorAll('.rv, .unveil');
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
