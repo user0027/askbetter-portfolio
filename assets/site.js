@@ -4,11 +4,11 @@ window.SITE = {
   brand: 'ASKBETTER',
   // 헤더 메뉴는 로고에 맞춰 영어로 쓴다. 본문 링크 문구는 story.label(한글)을 쓴다
   nav: {
-    story: 'Interview',
+    story: 'Case Study',
     about: 'About me',
   },
   // 커피 후원. 토스 프로필 아이디를 받으면 href 한 곳만 채운다
-  // 이 인터뷰로 발표하는 행사. 인터뷰 표지 윗줄에 쓴다
+  // 이 글로 발표하는 행사. 케이스 스터디 표지 윗줄에 쓴다
   talk: { label: '우먼잇츠 밋업 발표 · 2026.10.11 · 온라인', href: 'https://wtech.or.kr/sub/board/meetup/15' },
 
   support: {
@@ -29,7 +29,7 @@ window.SITE = {
       did: 'ERP 급여 데이터와 은행 이체 업무를 연동.', result: '급여이체 서비스 상용화.' },
     { q: '사용자가 겪는 불편함에서 무엇을 먼저 바꿔야 할까?', name: 'AI 수임처 연말정산 웹', org: '더존비즈온', year: '2026',
       did: 'VOC 기반으로 재설계.', result: "사내 '최고의 기획자상' 수상." },
-    { q: '학생·초보 개발자가 계속 만들고 싶어지는 이유는 무엇일까?', name: '게임 제작 툴 & 커뮤니티', org: '프롬더레드', year: '2019–2024',
+    { q: '학생·초보 개발자가 계속 만들고 싶어지는 이유는 무엇일까?', name: '게임 제작 툴 & 커뮤니티', org: '프롬더레드', year: '2019–2023',
       did: 'GA 데이터로 운영 방향을 검증.', result: '이탈률 개선, DAU 상승. 초·중학교 대상 MOU 체결로 B2B 확장.' },
   ],
   // 탭 제목은 로고에 맞춰 영어로 쓴다
@@ -37,9 +37,9 @@ window.SITE = {
     title: 'Product Manager',
   },
   story: {
-    label: '인터뷰',
+    label: '케이스 스터디',
     href: 'case-study.html',
-    title: 'AI Workflow Interview',
+    title: 'AI Workflow Case Study',
   },
   // 숙련자용 심화 자료. 이름은 사용자 확인 전 임시값
   advanced: {
