@@ -298,26 +298,7 @@
 
   footer.pagefoot{ padding:36px 0 64px; font-size:12.5px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
 
-  /* ---------- Nav ---------- */
-  .nav{
-    position:sticky; top:0; z-index:20; background:rgba(255,255,255,0.92);
-    backdrop-filter:saturate(180%) blur(10px); border-bottom:1px solid var(--line);
-  }
-  .nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; max-width:1040px; }
-  .nav .id{ display:flex; align-items:center; gap:9px; font-weight:900; font-size:15px; letter-spacing:-0.01em; text-decoration:none; color:var(--ink); }
-  .nav .id img{ display:block; width:160px; height:auto; }
-  .nav .links{ display:flex; align-items:center; gap:26px; font-size:13.5px; font-weight:700; color:var(--ink-soft); }
-  .nav .links a{ position:relative; text-decoration:none; transition:color 0.2s ease; }
-  .nav .links a:not(.cta)::after{
-    content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:var(--ink);
-    transform:scaleX(0); transform-origin:right; transition:transform 0.25s ease;
-  }
-  .nav .links a:not(.cta):hover::after{ transform:scaleX(1); transform-origin:left; }
-  .nav .links a:hover{ color:var(--ink); }
-  .nav .links a.cta{ background:var(--ink); color:#fff; padding:8px 16px; border-radius:100px; font-weight:700; transition:background 0.2s ease, transform 0.2s ease; }
-  .nav .links a.cta:hover{ background:var(--navy, #0f1830); transform:translateY(-1px); }
-  @media (max-width:640px){ .nav .links{ gap:14px; font-size:12.5px; } .nav .links a.cta{ padding:7px 12px; } }
-
+  
   /* ---------- Closing CTA row ---------- */
   .cta-row{ margin-top:40px; display:flex; flex-wrap:wrap; gap:14px; }
   .cta{
@@ -374,16 +355,19 @@
 
   .endline{ margin-top:40px; font-size:18px; font-weight:700; line-height:1.7; padding-left:18px; border-left:3px solid var(--accent); }
 </style>
+<link rel="stylesheet" href="assets/nav.css">
 </head>
 <body>
 <article>
 
-  <nav class="nav">
-    <div class="wrap">
+  <nav class="nav" id="nav">
+    <div class="page">
       <a class="id" href="index.html"><img src="assets/brand/askbetter-logo.svg" alt="ASKBETTER"></a>
       <div class="links">
         <a href="index.html#work" data-site="nav.work">Work</a>
-        <a class="cta" href="index.html#contact" data-site="nav.contact">Contact</a>
+        <a class="opt" href="index.html#about" data-site="nav.about">About</a>
+        <a href="case-study.html" data-site-href="story.href" data-site="nav.story" aria-current="page">Interview</a>
+        <a href="index.html#contact" data-site="nav.contact">Contact</a>
       </div>
     </div>
   </nav>
@@ -818,5 +802,6 @@
 
 </article>
 <script src="assets/site.js"></script>
+<script src="assets/nav.js"></script>
 </body>
 </html>
