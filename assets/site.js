@@ -8,15 +8,17 @@ window.SITE = {
     about: 'About me',
   },
   // 커피 후원. 토스 프로필 아이디를 받으면 href 한 곳만 채운다
+  // 이 인터뷰로 발표하는 행사. 인터뷰 표지 윗줄에 쓴다
+  talk: { label: '우먼잇츠 밋업 발표 · 2026.10.11 · 온라인', href: 'https://wtech.or.kr/sub/board/meetup/15' },
+
   support: {
     label: '커피 한 잔 후원하기',
     href: '#',
   },
-  // 메인 히어로. 이름·직무·전문성을 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
+  // 메인 히어로. 이름·직무만 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
   hero: {
     name: '박유진',
     role: 'Product Manager',
-    sub: 'Data-driven Strategy × UX',
   },
   // 대표 작업. 메인 Work 장과 히어로 질문이 이 목록을 같이 쓴다.
   // did 는 한 일, result 는 결과. plate 는 작업 화면이 없을 때 판에 크게 잘라 넣는 낱말
