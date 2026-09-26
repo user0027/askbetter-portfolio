@@ -89,18 +89,10 @@
   .who span{ font-size:clamp(13px, 1.3vw, 15px); color:var(--ink-soft); }
   .who span::before{ content:'· '; color:var(--ink-faint); }
 
-  .opening-foot{ display:flex; align-items:center; gap:16px;
-    padding:18px 0 22px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft);
-    opacity:0; transition:opacity .7s ease; transition-delay:1s; }
-  .opening.is-in .opening-foot{ opacity:1; }
-  .opening-foot a{ text-decoration:none; color:var(--ink-faint); }
-  .opening-foot a:hover{ color:var(--ink); }
-
   @media (max-width:860px){
     .opening{ min-height:calc(100svh - 68px); }
     .headline{ padding-bottom:28px; }
     .hl > span{ text-wrap:balance; }
-    .opening-foot a{ display:none; }
     /* 좁은 화면에선 사진을 위쪽 띠로 깔고 아래로 흐리게 녹인다. 빼면 헤드라인 위가 통째로 빈다 */
     .hero-photo{ width:100%; bottom:42%; -webkit-mask-image:linear-gradient(to bottom, #000 45%, transparent 100%); mask-image:linear-gradient(to bottom, #000 45%, transparent 100%); }
     .hero-text{ max-width:100%; }
@@ -235,7 +227,7 @@
     *{ animation:none !important; transition:none !important; }
     .rules i, .hl > span{ transform:none; }
     .rv{ opacity:1; transform:none; } .unveil{ clip-path:none; }
-    .hero-photo, .who, .opening-foot{ opacity:1; transform:none; }
+    .hero-photo, .who{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -267,9 +259,6 @@
           <b data-site="hero.name">박유진</b>
           <span data-site="hero.role">Product Manager</span>
         </p>
-        <div class="opening-foot">
-          <a href="#work" class="mono">Selected Work ↓</a>
-        </div>
       </div>
     </div>
   </section>
