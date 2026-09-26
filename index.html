@@ -120,9 +120,6 @@
   .unveil.is-in{ clip-path:inset(0 0 0 0); }
 
   /* ---------- Work ---------- */
-  .work-intro{ padding-top:clamp(120px, 18vh, 200px); padding-bottom:clamp(64px, 10vh, 120px); }
-  .work-intro p{ grid-column:4 / 11; font-size:clamp(20px, 2vw, 26px); line-height:1.55; letter-spacing:-0.025em; color:var(--ink-soft); }
-
   .ch{ padding-block:clamp(56px, 10vh, 112px); }
   .ch-no{ display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:12px; letter-spacing:.12em; color:var(--ink-faint); }
   .ch-no::after{ content:''; width:40px; height:1px; background:var(--line); }
@@ -155,7 +152,6 @@
 
   @media (max-width:860px){
     .grid > *{ grid-column:1 / -1 !important; }
-    .work-intro p{ margin-top:14px; }
     .ch-1 .txt{ position:static; margin-bottom:40px; }
     .ch-1 .media{ margin-right:calc(-1 * var(--gut)); }
     .ch-1 .sub{ width:64%; margin-left:0; margin-top:-24px; }
@@ -246,10 +242,6 @@
 
   <!-- Work -->
   <section id="work">
-    <div class="page grid work-intro rv">
-      <p>질문을 던지고, 제품으로 답했습니다.</p>
-    </div>
-
     <!-- 01 -->
     <article class="ch ch-1">
       <div class="page grid">
