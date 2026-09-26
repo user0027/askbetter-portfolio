@@ -4,10 +4,8 @@ window.SITE = {
   brand: 'ASKBETTER',
   // 헤더 메뉴는 로고에 맞춰 영어로 쓴다. 본문 링크 문구는 story.label(한글)을 쓴다
   nav: {
-    work: 'Work',
     story: 'Interview',
-    about: 'About',
-    contact: 'Contact',
+    about: 'About me',
   },
   // 메인 히어로. 이름·직무·전문성을 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
   hero: {

@@ -8,4 +8,4 @@
 .nav .links{ display:flex; gap:28px; font-size:13px; font-weight:500; color:#4e5770; }
 .nav .links a{ color:inherit; text-decoration:none; transition:color .2s ease; }
 .nav .links a:hover, .nav .links a[aria-current="page"]{ color:#131a2e; }
-@media (max-width:640px){ .nav .id img{ width:118px; } .nav .links{ gap:16px; font-size:12.5px; } .nav .links .opt{ display:none; } }
+@media (max-width:640px){ .nav .id img{ width:118px; } .nav .links{ gap:16px; font-size:12.5px; } }
