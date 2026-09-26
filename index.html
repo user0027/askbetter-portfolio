@@ -209,16 +209,16 @@
   .record .also{ grid-column:10 / -1; }
   .co{ display:grid; grid-template-columns:92px 1fr auto; align-items:center; gap:10px; padding:6px 0; }
   .co img{ height:18px; width:auto; max-width:92px; object-fit:contain; object-position:left center; }
-  .co .period{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); }
+  .co .period{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); width:11ch; white-space:nowrap; } /* 기간 칸 폭을 고정해 행마다 열이 어긋나지 않게 한다 */
   .record p{ line-height:1.75; }
   .tool-list{ display:flex; flex-wrap:wrap; gap:8px 16px; }
   .tool-list span{ display:inline-flex; align-items:center; gap:6px; }
   .tool-list img{ width:14px; height:14px; object-fit:contain; }
 
   /* ---------- Contact ---------- */
-  .contact{ padding-top:clamp(160px, 26vh, 280px); padding-bottom:clamp(64px, 10vh, 112px); }
+  .contact{ padding-top:clamp(96px, 16vh, 180px); padding-bottom:clamp(64px, 10vh, 112px); }
   .contact .lead{ font-size:clamp(15px, 1.3vw, 17px); color:var(--ink-soft); }
-  .contact h2{ margin-top:14px; font-size:clamp(56px, 11vw, 168px); line-height:1; letter-spacing:-0.06em; font-weight:700; }
+  .contact h2{ margin-top:12px; font-size:clamp(36px, 4.4vw, 60px); line-height:1.05; letter-spacing:-0.04em; font-weight:700; }
   .contact h2 em{ font-style:normal; color:var(--accent); }
   .contact .ways{ display:flex; flex-wrap:wrap; gap:14px 40px; margin-top:clamp(40px, 6vh, 64px); font-size:clamp(17px, 1.6vw, 21px); }
   .contact .ways a{ text-decoration:none; padding-bottom:4px; border-bottom:1px solid var(--line); transition:border-color .3s ease; }
@@ -398,7 +398,7 @@
     <div class="page grid record rv">
       <div class="career">
         <span class="label">Career</span>
-        <div class="co"><img src="assets/logos/estsecurity.png" alt="">이스트시큐리티<span class="period">2026.09–</span></div>
+        <div class="co"><img src="assets/logos/estsecurity.png" alt="">이스트시큐리티<span class="period">2026.09–ing</span></div>
         <div class="co"><img src="assets/logos/douzone.png" alt="">더존비즈온<span class="period">2024–2026</span></div>
         <div class="co"><img src="assets/logos/fromthered.png" alt="">프롬더레드<span class="period">2019–2024</span></div>
       </div>
@@ -428,6 +428,7 @@
       <div class="ways">
         <a href="mailto:71d2sr@gmail.com">71d2sr@gmail.com</a>
         <a href="https://linkedin.com/in/yujin1113" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="#" data-site-href="support.href" data-site="support.label" aria-label="토스 프로필로 커피 후원하기">커피 한 잔 후원하기</a>
       </div>
     </div>
   </section>

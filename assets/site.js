@@ -7,6 +7,11 @@ window.SITE = {
     story: 'Interview',
     about: 'About me',
   },
+  // 커피 후원. 토스 프로필 아이디를 받으면 href 한 곳만 채운다
+  support: {
+    label: '커피 한 잔 후원하기',
+    href: '#',
+  },
   // 메인 히어로. 이름·직무·전문성을 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
   hero: {
     name: '박유진',
