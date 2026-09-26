@@ -214,9 +214,9 @@
   .co img{ height:18px; width:auto; max-width:92px; object-fit:contain; object-position:left center; }
   .co .period{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); width:15ch; white-space:nowrap; } /* 기간 칸 폭을 고정해 행마다 열이 어긋나지 않게 한다 */
   .record p{ line-height:1.75; }
-  .tool-list{ display:flex; flex-wrap:wrap; gap:8px 16px; }
-  .tool-list span{ display:inline-flex; align-items:center; gap:6px; }
-  .tool-list img{ width:14px; height:14px; object-fit:contain; }
+  .tool-list{ display:flex; flex-direction:column; } /* Career 행 리듬(패딩 6px·아이콘 18px)에 맞춰 세로로 배치한다 */
+  .tool-list span{ display:flex; align-items:center; gap:10px; padding:6px 0; }
+  .tool-list img{ width:18px; height:18px; object-fit:contain; }
 
   /* ---------- Contact ---------- */
   .contact{ padding-top:clamp(96px, 16vh, 180px); padding-bottom:clamp(64px, 10vh, 112px); }
