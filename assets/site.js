@@ -7,13 +7,13 @@ window.SITE = {
     story: 'Case Study',
     about: 'About me',
   },
-  // 커피 후원. 토스 프로필 아이디를 받으면 href 한 곳만 채운다
+  // 커피 후원. Ko-fi 페이지로 연결한다
   // 이 글로 발표하는 행사. 케이스 스터디 표지 윗줄에 쓴다
   talk: { label: '우먼잇츠 밋업 발표 · 2026.10.11 · 온라인', href: 'https://wtech.or.kr/sub/board/meetup/15' },
 
   support: {
     label: '커피 한 잔 후원하기',
-    href: '#',
+    href: 'https://ko-fi.com/askbetter',
   },
   // 메인 히어로. 이름·직무만 헤드라인 아래 한 단 낮은 위계로 붙여 보여 준다
   hero: {
