@@ -62,18 +62,21 @@
   .rules i:nth-child(2){ transition-delay:.12s; } .rules i:nth-child(3){ transition-delay:.24s; } .rules i:nth-child(4){ transition-delay:.36s; }
   .opening.is-in .rules i{ transform:none; }
 
-  .opening > .page{ position:relative; flex:1; width:100%; display:grid; grid-template-rows:auto 1fr auto auto; }
+  .opening > .page{ position:relative; flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-end; }
 
-  /* 시그니처 물음표. 곡선은 잉크, 점만 인디고. 가장 마지막에 아주 조용히 자리를 잡는다 */
-  .qmark{ grid-row:1; align-self:start; justify-self:end; width:clamp(56px, 6.2vw, 96px);
-    padding-top:clamp(28px, 9vh, 88px); opacity:0; transform:translateY(-6px); transition:opacity .8s ease, transform 1s var(--ease); }
-  .opening.is-in .qmark{ opacity:1; transform:none; transition-delay:.85s; }
-  .qmark svg{ display:block; width:100%; height:auto; overflow:visible; }
-  .qmark .q-curve{ stroke:var(--ink); }
-  .qmark .q-dot{ fill:var(--accent); transform-origin:62px 160px; transform:scale(.5); transition:transform .5s var(--ease); transition-delay:1.15s; }
-  .opening.is-in .qmark .q-dot{ transform:scale(1); }
+  /* 사진 속에 이미 그려진 곡선을 물음표 대신 쓴다. 점만 인디고로 따로 찍는다 */
+  .hero-photo{ position:absolute; top:0; right:0; bottom:0; width:54%; z-index:0;
+    background-image:url('assets/hero/arches.jpg'); background-size:cover; background-position:center;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 42%); mask-image:linear-gradient(to right, transparent 0%, #000 42%);
+    opacity:0; transition:opacity 1.6s ease; }
+  .opening.is-in .hero-photo{ opacity:1; transition-delay:.2s; }
+  .hero-dot{ position:absolute; left:19%; top:77%; width:9px; height:9px; border-radius:50%; background:var(--accent);
+    transform:scale(0); transition:transform .5s var(--ease); transition-delay:1.3s; }
+  .opening.is-in .hero-dot{ transform:scale(1); }
 
-  .headline{ grid-row:2; align-self:end; padding-bottom:clamp(28px, 5vh, 44px);
+  .hero-text{ position:relative; z-index:1; max-width:min(620px, 56%); }
+
+  .headline{ padding-bottom:clamp(28px, 5vh, 44px);
     font-size:clamp(40px, 6.6vw, 100px); line-height:1.12; letter-spacing:-0.055em; font-weight:700; }
   .headline em{ font-style:normal; color:var(--accent); }
   .hl{ display:block; overflow:hidden; padding-bottom:.08em; }
@@ -82,14 +85,14 @@
   .opening.is-in .hl > span{ transform:none; }
 
   /* 이름·직무. 메인 카피 바로 아래, 한 단 낮은 위계 */
-  .who{ grid-row:3; display:flex; flex-wrap:wrap; align-items:baseline; column-gap:12px; row-gap:4px;
+  .who{ display:flex; flex-wrap:wrap; align-items:baseline; column-gap:12px; row-gap:4px;
     padding-bottom:clamp(40px, 9vh, 96px); opacity:0; transform:translateY(8px); transition:opacity .8s ease, transform .8s var(--ease); transition-delay:.4s; }
   .opening.is-in .who{ opacity:1; transform:none; }
   .who b{ font-weight:500; color:var(--ink); font-size:clamp(16px, 1.6vw, 18px); }
   .who span{ font-size:clamp(13px, 1.3vw, 15px); color:var(--ink-soft); }
   .who span::before{ content:'· '; color:var(--ink-faint); }
 
-  .opening-foot{ grid-row:4; display:flex; justify-content:flex-end; align-items:center; gap:16px;
+  .opening-foot{ display:flex; align-items:center; gap:16px;
     padding:18px 0 22px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-soft);
     opacity:0; transition:opacity .7s ease; transition-delay:1s; }
   .opening.is-in .opening-foot{ opacity:1; }
@@ -98,15 +101,15 @@
 
   @media (max-width:860px){
     .opening{ min-height:calc(100svh - 68px); }
-    .headline{ align-self:end; padding-bottom:28px; }
+    .headline{ padding-bottom:28px; }
     .hl > span{ text-wrap:balance; }
     .opening-foot a{ display:none; }
-    .qmark{ width:52px; padding-top:36px; }
+    .hero-photo, .hero-dot{ display:none; }
+    .hero-text{ max-width:100%; }
     .rules .page{ grid-template-columns:repeat(2,1fr); }
     .rules i:nth-child(n+3){ display:none; }
     .rules i:nth-child(2){ border-right:1px solid var(--hair); }
   }
-  @media (max-width:480px){ .qmark{ display:none; } }
 
   /* ---------- 공통 reveal ---------- */
   .rv{ opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform 1.1s var(--ease); }
@@ -234,8 +237,7 @@
     *{ animation:none !important; transition:none !important; }
     .rules i, .hl > span{ transform:none; }
     .rv{ opacity:1; transform:none; } .unveil{ clip-path:none; }
-    .qmark, .who, .opening-foot{ opacity:1; transform:none; }
-    .qmark .q-dot{ transform:scale(1); }
+    .hero-photo, .hero-dot, .who, .opening-foot{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -255,26 +257,22 @@
 
   <!-- Opening: 헤드라인 두 줄, 이름과 직무, 시그니처 물음표 -->
   <section class="opening" id="opening">
+    <div class="hero-photo" aria-hidden="true"><span class="hero-dot"></span></div>
     <div class="rules" aria-hidden="true"><div class="page"><i></i><i></i><i></i><i></i></div></div>
     <div class="page">
-      <div class="qmark" aria-hidden="true">
-        <svg viewBox="0 0 120 190">
-          <path class="q-curve" d="M18 46 C18 18, 40 4, 64 4 C90 4, 108 20, 108 42 C108 64, 92 72, 78 84 C66 94, 62 104, 62 122"
-            fill="none" stroke-width="11" stroke-linecap="round"/>
-          <circle class="q-dot" cx="62" cy="160" r="8"/>
-        </svg>
-      </div>
-      <h1 class="headline">
-        <span class="hl"><span>좋은 <em>질문</em>이,</span></span>
-        <span class="hl"><span>더 나은 제품을 만듭니다.</span></span>
-      </h1>
-      <p class="who">
-        <b data-site="hero.name">박유진</b>
-        <span data-site="hero.role">Product Manager</span>
-        <span class="mono" data-site="hero.sub">Data-driven Strategy × UX</span>
-      </p>
-      <div class="opening-foot">
-        <a href="#work" class="mono">Selected Work ↓</a>
+      <div class="hero-text">
+        <h1 class="headline">
+          <span class="hl"><span>좋은 <em>질문</em>이,</span></span>
+          <span class="hl"><span>더 나은 제품을 만듭니다.</span></span>
+        </h1>
+        <p class="who">
+          <b data-site="hero.name">박유진</b>
+          <span data-site="hero.role">Product Manager</span>
+          <span class="mono" data-site="hero.sub">Data-driven Strategy × UX</span>
+        </p>
+        <div class="opening-foot">
+          <a href="#work" class="mono">Selected Work ↓</a>
+        </div>
       </div>
     </div>
   </section>
