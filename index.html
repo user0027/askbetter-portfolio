@@ -64,15 +64,12 @@
 
   .opening > .page{ position:relative; flex:1; width:100%; display:flex; flex-direction:column; justify-content:flex-end; }
 
-  /* 사진 속에 이미 그려진 곡선을 물음표 대신 쓴다. 점만 인디고로 따로 찍는다 */
+  /* 사진 속에 이미 그려진 곡선을 물음표 대신 쓴다. 브리프대로 떠다니는 파란 점은 두지 않는다 */
   .hero-photo{ position:absolute; top:0; right:0; bottom:0; width:54%; z-index:0;
     background-image:url('assets/hero/arches.jpg'); background-size:cover; background-position:center;
     -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 42%); mask-image:linear-gradient(to right, transparent 0%, #000 42%);
     opacity:0; transition:opacity 1.6s ease; }
   .opening.is-in .hero-photo{ opacity:1; transition-delay:.2s; }
-  .hero-dot{ position:absolute; left:19%; top:77%; width:9px; height:9px; border-radius:50%; background:var(--accent);
-    transform:scale(0); transition:transform .5s var(--ease); transition-delay:1.3s; }
-  .opening.is-in .hero-dot{ transform:scale(1); }
 
   .hero-text{ position:relative; z-index:1; max-width:min(620px, 56%); }
 
@@ -104,7 +101,8 @@
     .headline{ padding-bottom:28px; }
     .hl > span{ text-wrap:balance; }
     .opening-foot a{ display:none; }
-    .hero-photo, .hero-dot{ display:none; }
+    /* 좁은 화면에선 사진을 위쪽 띠로 깔고 아래로 흐리게 녹인다. 빼면 헤드라인 위가 통째로 빈다 */
+    .hero-photo{ width:100%; bottom:42%; -webkit-mask-image:linear-gradient(to bottom, #000 45%, transparent 100%); mask-image:linear-gradient(to bottom, #000 45%, transparent 100%); }
     .hero-text{ max-width:100%; }
     .rules .page{ grid-template-columns:repeat(2,1fr); }
     .rules i:nth-child(n+3){ display:none; }
@@ -163,8 +161,8 @@
   .ch-2 .head .q-col{ grid-column:1 / 9; }
   .ch-2 .head .meta-col{ grid-column:10 / -1; }
   .ch-2 .bleed{ width:100vw; margin-left:calc(50% - 50vw); margin-top:clamp(48px, 7vh, 80px); }
-  .ch-2 .plate{ height:clamp(320px, 64vh, 640px); background:linear-gradient(180deg, var(--tint) 0%, var(--tint-2) 100%); }
-  .ch-2 .plate .word{ font-size:clamp(120px, 26vw, 400px); left:var(--gut); }
+  .ch-2 .plate{ height:clamp(220px, 38vh, 380px); background:linear-gradient(180deg, var(--tint) 0%, var(--tint-2) 100%); }
+  .ch-2 .plate .word{ font-size:clamp(72px, 13vw, 180px); left:var(--gut); }
   .ch-2 .foot{ margin-top:32px; }
   .ch-2 .foot .ch-notes{ grid-column:4 / 10; margin-top:0; }
 
@@ -173,14 +171,14 @@
   .ch-3 .meta-col{ grid-column:9 / -1; padding-top:48px; }
   .ch-3 .plate-col{ grid-column:3 / -1; margin-top:clamp(48px, 7vh, 88px); }
   .ch-3 .plate{ aspect-ratio:16 / 8; background:var(--ink); }
-  .ch-3 .plate .word{ font-size:clamp(96px, 17vw, 260px); color:rgba(255,255,255,.1); }
+  .ch-3 .plate .word{ font-size:clamp(56px, 9vw, 140px); color:rgba(255,255,255,.1); }
   .ch-3 .plate .label{ color:rgba(255,255,255,.45); }
   .ch-3 .plate .tick{ background:#7d97ee; }
 
   /* 04 · 작은 판과 텍스트가 맞선다. 마무리 장이라 가장 조용하게 */
   .ch-4 .plate-col{ grid-column:1 / 5; }
   .ch-4 .plate{ aspect-ratio:4 / 5; background:var(--bg); border:1px solid var(--line); }
-  .ch-4 .plate .word{ font-size:clamp(96px, 14vw, 200px); color:rgba(43,83,214,.14); }
+  .ch-4 .plate .word{ font-size:clamp(48px, 7vw, 100px); color:rgba(43,83,214,.14); }
   .ch-4 .txt{ grid-column:6 / 12; align-self:center; }
   .ch-4 .ch-q{ font-size:clamp(24px, 2.6vw, 36px); }
 
@@ -237,7 +235,7 @@
     *{ animation:none !important; transition:none !important; }
     .rules i, .hl > span{ transform:none; }
     .rv{ opacity:1; transform:none; } .unveil{ clip-path:none; }
-    .hero-photo, .hero-dot, .who, .opening-foot{ opacity:1; transform:none; }
+    .hero-photo, .who, .opening-foot{ opacity:1; transform:none; }
   }
 </style>
 </head>
@@ -257,7 +255,7 @@
 
   <!-- Opening: 헤드라인 두 줄, 이름과 직무, 시그니처 물음표 -->
   <section class="opening" id="opening">
-    <div class="hero-photo" aria-hidden="true"><span class="hero-dot"></span></div>
+    <div class="hero-photo" aria-hidden="true"></div>
     <div class="rules" aria-hidden="true"><div class="page"><i></i><i></i><i></i><i></i></div></div>
     <div class="page">
       <div class="hero-text">
