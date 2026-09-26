@@ -295,7 +295,8 @@
   }
 
 
-  footer.pagefoot{ padding:36px 0 64px; font-size:12.5px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  footer.pagefoot{ padding:36px 0 64px; font-size:12.5px; color:var(--ink-faint); }
+  footer.pagefoot .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
 
   
   /* ---------- Closing CTA row ---------- */
@@ -319,8 +320,8 @@
   }
 
   /* narrow reading column */
-  /* 읽기 단은 좁게 두되 가운데가 아니라 로고 왼쪽 선에 붙인다 */
-  .wrap.narrow{ max-width:calc(820px + 2 * var(--page-gut)); margin-left:max(0px, calc((100% - var(--page-max)) / 2)); margin-right:auto; }
+  /* 틀은 헤더와 같은 좌우 선을 쓴다. 긴 글줄만 읽기 좋은 폭에서 끊는다 */
+  .wrap.narrow p, .wrap.narrow li{ max-width:var(--read-max); }
 
   /* maker intro */
   .maker-sec{ padding:56px 0 64px; border-bottom:1px solid var(--line); }
