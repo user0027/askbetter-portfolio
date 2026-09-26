@@ -219,6 +219,9 @@
   .co img{ height:18px; width:auto; max-width:92px; object-fit:contain; object-position:left center; }
   .co .period{ font-family:var(--mono); font-size:11.5px; color:var(--ink-faint); }
   .record p{ line-height:1.75; }
+  .tool-list{ display:flex; flex-wrap:wrap; gap:8px 16px; }
+  .tool-list span{ display:inline-flex; align-items:center; gap:6px; }
+  .tool-list img{ width:14px; height:14px; object-fit:contain; }
 
   /* ---------- Contact ---------- */
   .contact{ padding-top:clamp(160px, 26vh, 280px); padding-bottom:clamp(64px, 10vh, 112px); }
@@ -411,7 +414,14 @@
       </div>
       <div class="tools">
         <span class="label">Tools</span>
-        <p>Figma, Sketch, Claude Code, Google Analytics, Confluence, Jira</p>
+        <div class="tool-list">
+          <span><img src="assets/logos/figma.svg" alt="">Figma</span>
+          <span><img src="assets/logos/sketch.svg" alt="">Sketch</span>
+          <span><img src="assets/logos/claude.svg" alt="">Claude Code</span>
+          <span><img src="assets/logos/googleanalytics.svg" alt="">Google Analytics</span>
+          <span><img src="assets/logos/confluence.svg" alt="">Confluence</span>
+          <span><img src="assets/logos/jira.svg" alt="">Jira</span>
+        </div>
       </div>
       <div class="also">
         <span class="label">Now</span>
